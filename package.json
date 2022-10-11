@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  },
+  "name": "startup-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd ./server && npm run server\" \"cd ./client && npm run client\""
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

@@ -1,0 +1,74 @@
+:root{
+  --mobile-width: 375px;
+  --desktop-width: 1440px;
+  --color-white: #fff;
+  --color-black: #0C0C0C;
+  --color-softblue: hsl(231, 69%, 60%);
+  --color-softred: hsl(0, 94%, 66%);
+  --color-lightgrey: #ececec;
+  --color-mediumgrey: #cdb6b6;
+  --color-greyblue: hsl(229, 8%, 60%);
+  --color-darkblue: hsl(229, 31%, 21%);
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: var(--color-darkblue);
+  position: relative;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* font */
+/* ============================== */
+h1{
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 2rem;
+}
+
+h2{
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.4rem;
+}
+
+h3{
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2rem;
+}
+
+h4{
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 0.95rem;
+}
+
+p{
+  font-size: 0.8rem;
+  line-height: 1.3rem;
+}
+
+a{
+  transition: 0.5s;
+}
+
+header a:hover{
+  color: var(--color-softred);
+}
