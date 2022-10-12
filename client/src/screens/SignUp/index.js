@@ -27,7 +27,6 @@ const SignUp = () => {
     email: "",
     password: "",
     fullName: "",
-    phoneNumber: { isoCode:"ng" },
   }
   const [form, setForm] = useState(initialFormState)
   const [error, setError] = useState(initialFormState)
@@ -74,10 +73,6 @@ const SignUp = () => {
     const {name,value} = e.target
     setForm({...form, [name]: value})
     onChangeError(name, value, form, error, setError)
-  }
-
-  const handlePhone = phone => {
-    setForm({...form, phoneNumber: phone})
   }
 
   return (
@@ -136,12 +131,6 @@ const SignUp = () => {
               error={error.confirmPassword}
             /> */}
 
-            <Form.PhoneNumber 
-                label="Phone Number"
-                onChange={handlePhone}
-                value={form.phoneNumber}
-                name="phoneNumber"
-              />
 
             <Button variant="primary" disabled={error.password && true} className="btn btn-primary btn-signin spacing-md" type="submit">
               Sign Up
