@@ -18,7 +18,7 @@ export const signUp = async(req, res) => {
             return res.status(401).send({message: "This email has been used previously"})
         }
 
-        // check if phone number already exists
+        // // check if phone number already exists
         const foundUserByPhoneNumber = await findUser({phoneNumber: phoneNumber}) 
         if(foundUserByPhoneNumber){
             return res.status(401).send({message: "This phone number has been used previously"})
@@ -41,10 +41,8 @@ export const signUp = async(req, res) => {
 }
 
 export const signIn = async(req, res) => {
-    const {emailOrNumber, password} = req.body
-    const foundUserByEmail = await findUser({email: emailOrNumber}) 
-    const foundUserByPhoneNumber = await findUser({phoneNumber: emailOrNumber}) 
-    const foundUser = foundUserByEmail || foundUserByPhoneNumber
+    const {email, password} = req.body
+    const foundUser = await findUser({email: email}) 
     if(foundUser){
          if(bcrypt.compareSync(password, foundUser.password)){
              res.send({user: foundUser, token: generateToken(foundUser)})

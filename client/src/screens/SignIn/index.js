@@ -25,7 +25,7 @@ const SignIn = () => {
   // state
   const {currentUser, errorSignUser, successSignUser, loadingSignUser} =  useSelector(state => state.userStore)
   const initialFormState = {
-    emailOrNumber: "",
+    email: "",
     password: "",
   }
   const [form, setForm] = useState(initialFormState)
@@ -34,7 +34,7 @@ const SignIn = () => {
   useEffect(() => {
     if(successSignUser || currentUser.email){
       setForm({
-        emailOrNumber: "",
+        email: "",
         password: "",
       })
       dispatch({type: SIGN_USER_RESET})
@@ -52,7 +52,7 @@ const SignIn = () => {
     e.preventDefault()
     const trimmedForm = {
       password: form.password,
-      emailOrNumber: form.emailOrNumber.trim(),
+      email: form.email.trim(),
     }
     if(!onSubmitError(form, error, setError)){
       dispatch(signInUser(trimmedForm))
@@ -83,10 +83,10 @@ const SignIn = () => {
             <Form.Input 
               label="Email or Phone Number"
               onChange={handleChange}
-              value={form.emailOrNumber}
+              value={form.email}
               type="text"
-              name="emailOrNumber"
-              error={error.emailOrNumber}
+              name="email"
+              error={error.email}
             />
 
             <Form.Input 

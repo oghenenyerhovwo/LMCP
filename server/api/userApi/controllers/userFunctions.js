@@ -9,7 +9,7 @@ export const findUser = async(object) => {
         return foundUser       
     } catch (error) {
         console.log(error)
-    }
+    } 
 } 
 
 export const updateUserFunc = async (res, user, data) => {
