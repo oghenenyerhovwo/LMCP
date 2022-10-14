@@ -71,7 +71,7 @@ const ShowStory = () => {
 
   useEffect(() => {
     dispatch(getStory(params.id))
-  }, [dispatch,params.id, successCreateComment, successDeleteComment ])
+  }, [dispatch, params.id, successCreateComment, successDeleteComment ])
 
   const handleToggleDeleteOverlay = () => {
     setToggleDeleteOverlay(prevToggle => !prevToggle)

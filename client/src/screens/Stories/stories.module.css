@@ -4,3 +4,8 @@
    column-gap: 2rem;
    justify-items: center;
 }
+
+.stories_button{
+   display: flex;
+   justify-content: flex-end;
+}
