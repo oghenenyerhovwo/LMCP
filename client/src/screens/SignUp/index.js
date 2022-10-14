@@ -40,7 +40,6 @@ const SignUp = () => {
         email: "",
         password: "",
         fullName: "",
-        phoneNumber: { isoCode:"ng" },
       })
       dispatch({type: SIGN_USER_RESET})
       const redirect = location.search && location.search.split("=")[1]
@@ -60,7 +59,6 @@ const SignUp = () => {
       password: form.password,
       email: form.email.trim(),
       fullName: form.fullName.trim(),
-      phoneNumber: form.phoneNumber.trim(),
     }
     if(!onSubmitError(form, error, setError)){
       dispatch(signUpUser(trimmedForm))
