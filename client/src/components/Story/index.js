@@ -1,5 +1,6 @@
 import React from 'react' 
 import htmlToText from "html-to-formatted-text"
+import { useLocation } from 'react-router-dom'
 
 import styles from "./story.module.css"
 
@@ -12,6 +13,8 @@ import { truncate } from "../../utils"
 
 
 const StoryCard = props => {
+
+    const location = useLocation()
 
     const { story } = props 
 
@@ -30,7 +33,7 @@ const StoryCard = props => {
             </div>
             <Card.Heading>{story.title}</Card.Heading>
             <Card.Paragraph>{truncate(htmlToText(story.content), 200)}&hellip; </Card.Paragraph>
-            <Button type="link" variant="primary" href={`/story?storyid=${story._id}`} block={true}>Read More<AiOutlineDoubleRight /></Button>
+            <Button type="link" variant="primary" href={`/story/${story._id}/?redirect=${location.pathname}`} block={true}>Read More<AiOutlineDoubleRight /></Button>
             </Card.Body>
             
         </Card.Container>

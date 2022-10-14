@@ -1,226 +1,216 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import htmlToText from "html-to-formatted-text"
 
 // components
-import { Spinner, MessageBox, Button, Form } from "../../components"
+import { ButtonGroup } from 'react-rainbow-components';
+import { Spinner, MessageBox, Button, CommentSection, VideoPlayer } from "../../components"
+import { BsFacebook } from "react-icons/bs"
+import { BsTwitter } from "react-icons/bs"
+import { BsInstagram } from "react-icons/bs"
+import { FaClipboard, FaAngleRight, FaAngleLeft } from "react-icons/fa"
 
 // css
-import styles from "./editprofile.module.css"
+import styles from "./showstory.module.css"
 
 // functions
-import { updateUser, getUserById } from "../../actions"
+import { getStory, deleteStory } from "../../actions"
+import { userPic, amenPicture } from "../../assets"
+import { setTagArray } from "../../utils"
 
 // type
-import { UPDATE_USER_RESET, GET_USER_BY_ID_RESET } from '../../constants/userConstants'
+import { GET_STORY_RESET, DELETE_STORY_RESET } from "../../constants/storyConstants"
 
 
-const EditProfile = () => {
+
+const ShowStory = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const location = useLocation()
   const params = useParams()
+  const location = useLocation()
+  
 
   // state
   const {
-    errorGetUserById,
-    successGetUserById,
-    loadingGetUserById,
-    errorUpdateUser,
-    successUpdateUser,
-    loadingUpdateUser,
-    idUpdateUser,
-    userByID,
+    story,
+    successGetStory,
+    errorGetStory,
+    loadingGetStory,
+    errorDeleteStory,
+    loadingDeleteStory,
+    successDeleteStory,
+  } =  useSelector(state => state.storyStore)
+
+  const { 
+    currentUser,
   } =  useSelector(state => state.userStore)
 
-  const initialFormState = {
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    gender: "",
-    isCatholic: false,
-    isCommunicant: false,
-    isConfirmed: false,
-    isBaptised: false,
-    parish: "",
-    birthday: "",
-    membership: "",
-  }
-  const [form, setForm] = useState(initialFormState)
+  const {
+    successCreateComment,
+    successDeleteComment,
+} =  useSelector(state => state.commentStore)
+
+  const [toggleDeleteOverlay, setToggleDeleteOverlay] = useState(false)
+  const [showVideo, setShowVideo] = useState(false)
+
+  const backLink = location.search && location.search.split("=")[1] 
 
   useEffect(() => {
-    dispatch(getUserById(params.id))
-  }, [dispatch, params.id])
-
-  useEffect(() => {
-    if(successGetUserById){
-      dispatch({type: GET_USER_BY_ID_RESET})
-      setForm(prevForm => {
-        return {
-          ...prevForm,
-          fullName: userByID.fullName || "",
-          email: userByID.email || "",
-          phoneNumber: userByID.phoneNumber || "",
-          gender: userByID.gender || "",
-          isCatholic: userByID.isCatholic || false,
-          isBaptised: userByID.isBaptised || false,
-          isCommunicant: userByID.isCommunicant || false,
-          isConfirmed: userByID.isConfirmed || false,
-          parish: userByID.parish || "",
-          birthday: userByID.birthday || "",
-          membership: userByID.membership || "",
-        } 
-      })
+    if(successDeleteStory){
+      dispatch({type: DELETE_STORY_RESET})
+      navigate("/story")
     }
-  }, [dispatch,userByID, successGetUserById])
+  }, [dispatch,navigate, successDeleteStory])
 
   useEffect(() => {
-    if(successUpdateUser){
-      dispatch({type: UPDATE_USER_RESET})
-      navigate(location.search ? location.search.split("=")[1] : `/profile/${idUpdateUser}` )
+    if(successGetStory){
+      dispatch({type: GET_STORY_RESET})
     }
-  }, [dispatch, successUpdateUser, idUpdateUser, location.search, navigate])
+  }, [dispatch, story, successGetStory])
 
-  
+  useEffect(() => {
+    dispatch(getStory(params.id))
+  }, [dispatch,params.id, successCreateComment, successDeleteComment ])
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    dispatch(updateUser(form, params.id))
+  const handleToggleDeleteOverlay = () => {
+    setToggleDeleteOverlay(prevToggle => !prevToggle)
   }
 
-  const handleChange = e => {
-    const {name,value} = e.target
-    setForm({...form, [name]: value})
+  const navigateToEditScreen= () => {
+    navigate(`/story/${story._id}/edit`)
   }
 
-  const handleCheck = e => {
-    const {name} = e.target
-    setForm({...form, [name]: !form[name]})
+  const handleShowVideoToggle = () => {
+    setShowVideo(prevToggle => !prevToggle)
   }
 
-  const handleDate = date => {
-    setForm({...form, birthday: date})
+  const handleDeleteAccount = () => {
+    dispatch(deleteStory(story._id))
+  }
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(htmlToText(story.content))
+
+    const copiedElement = document.querySelector(`.${styles.copied}`)
+    
+    copiedElement.style.opacity = "1"
+
+    setTimeout(() => {
+      copiedElement.style.opacity = "0"
+    }, 1500);
   }
 
   return (
-    <>
-      {
-        loadingGetUserById ? <Spinner /> :
-        errorGetUserById ? <MessageBox variant="danger">{errorGetUserById} </MessageBox> :
-        <div className={`grid ${styles.signin}`}>
+    <div className={`${styles.story_container}`}>
+        {loadingGetStory && <Spinner />}
+        {errorGetStory && <MessageBox variant="danger">{errorGetStory} </MessageBox>}
 
-          <div className={`${styles.form}`}>
-            <div className={`${styles.form_container}`}>
-              <h1 className="spacing-md">User Profile </h1>
+        {
+          story._id ?
+          <div className={`${styles.story} container`}>
+            <div className={`${styles.story_head} spacing-md`}>
+              <div className={`${styles.story_head_title} spacing-md`}>
+                <div className={`spacing-md ${styles.author}`}>
+                  <div>
+                      <p>Published on {String(new Date(story.createdAt)).slice(0, 15)}</p>
+                      <h4> <span>Written by</span> {story.author && story.author.fullName}</h4>
+                  </div>
+                  <img className={`${styles.author_pic}`} src={userPic} alt="crossImg" />
+                </div>
+                <h1 className="spacing-xs">{story.title}</h1>
+                <h3 className="spacing-md">{story.subtitle}</h3>
+                <div className={`${styles.story_head_tags} spacing-md`}>
+                  {setTagArray(story.tags).map(tagObj => (
+                    <div key={tagObj._id}>
+                      <Button type="link">{tagObj.tag}</Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-              <form className="spacing-xs" onSubmit={handleSubmit}>
-                
-                {loadingUpdateUser && <Spinner />}
-                {errorUpdateUser && <MessageBox variant="danger">{errorUpdateUser} </MessageBox>}
-                
-                <Form.Input 
-                  label="Full Name"
-                  onChange={handleChange}
-                  value={form.fullName}
-                  type="text"
-                  name="fullName"
-                />
+              {
+                story.video ? (
+                  <div className={`grid ${styles.image_and_video}`}>
+        
+                      {
+                          !showVideo ? (
+                            <div>
+                              <img className={`${styles.content_pic}`} src={story.image || amenPicture} alt="crossImg" /> 
+                            </div>
+                          ) : (
+                            <div>
+                              {story.video && <VideoPlayer url={story.video} />}
+                            </div>
+                          )
+                      }
 
-              <Form.Input 
-                  label="Email"
-                  onChange={handleChange}
-                  value={form.email}
-                  type="text"
-                  name="email"
-                />
-
-              <Form.Input 
-                  label="Phone Number"
-                  onChange={handleChange}
-                  value={form.phoneNumber}
-                  type="text"
-                  name="phoneNumber"
-                />
-
-              <Form.Dropdown 
-                  label="Gender"
-                  onChange={handleChange}
-                  value={form.gender}
-                  name="gender"
-                  options={[{_id: 1, label: "Male", name:"male"}, {_id: 2, label: "Female", name:"female"}]}
-                />
-
-                <Form.CheckBox 
-                  label="Are you a Catholic?"
-                  onChange={handleCheck}
-                  checked={form.isCatholic}
-                  name="isCatholic"
-                />
-
-                <Form.CheckBox 
-                  label="Are you Baptised?"
-                  onChange={handleCheck}
-                  checked={form.isBaptised}
-                  name="isBaptised"
-                />
-
-                <Form.CheckBox 
-                  label="Are you a Communicant?"
-                  onChange={handleCheck}
-                  checked={form.isCommunicant}
-                  name="isCommunicant"
-                />
-
-                <Form.CheckBox 
-                  label="Are you Confirmed?"
-                  onChange={handleCheck}
-                  checked={form.isConfirmed}
-                  name="isConfirmed"
-                />
-
-                <Form.Input 
-                  label="Home Parish / Church"
-                  onChange={handleChange}
-                  value={form.parish}
-                  type="text"
-                  name="parish"
-                />
-
-                <Form.Date
-                  label="Birthday"
-                  onChange={handleDate}
-                  value={form.birthday}
-                  name="birthday"
-                />
-
-                <Form.Dropdown 
-                  label="Membership"
-                  onChange={handleChange}
-                  value={form.membership}
-                  name="membership"
-                  options={[{_id: 1, label: "Active", name:"Active"}, {_id: 2, label: "Auxiliary", name:"Auxiliary"},]}
-                />
-                
-
-                <Button variant="primary" className="spacing-sm" type="submit">Update Profile</Button>
-              </form>
-              <p>
-                Go <Link to={`/profile/${params.id}`}>Back</Link>
-              </p>
-
+                      <div className={`${styles.image_and_video_icons}`}>
+                          <FaAngleLeft className={`${showVideo && styles.image_and_video_icons_active}`} onClick={handleShowVideoToggle} />
+                          <FaAngleRight className={`${!showVideo && styles.image_and_video_icons_active}`} onClick={handleShowVideoToggle} />
+                      </div>
+                      
+                      
+                  </div>
+                ):
+                <img className={`${styles.content_pic}`} src={story.image || amenPicture} alt="crossImg" />
+            }
+              
+              
+            </div>
+            <div className={`grid ${styles.story_body}`}>
+              <div className={`spacing-lg container ${styles.content}`} dangerouslySetInnerHTML={{ __html: story.content }} />
+              {/* <p className="spacing-lg container">{story.content}</p> */}
+              <div className={`${styles.story_body_icons}`}>
+                <div className={`spacing-sm `}>
+                  <BsFacebook />
+                </div>
+                <div className={`spacing-sm `}>
+                  <BsTwitter />
+                </div>
+                <div className={`spacing-sm `}>
+                  <BsInstagram />
+                </div>
+                <div onClick={copyToClipboard} className={`spacing-sm `}>
+                  <FaClipboard  />
+                  <h4 className={`${styles.copied}`}>Copied!</h4>
+                </div>
               </div>
             </div>
-
-          <div className={styles.image_col}>
-            <div className={styles.image_col_container}>
-                <h1 className="spacing-sm">Tell us more <span>you </span></h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex, dignissimos doloremque ducimus a eaque impedit aut rem facere earum magnam nobis delectus? Saepe iusto ad, dolorum architecto minus dolorem nemo!</p>
-            </div>
-          </div>
-        </div>
-      }
-    </>
+            <div className="spacing-lg"></div>
+            <CommentSection storyId={story._id} comments={story.comments} currentUser={currentUser} />
+            <div className="spacing-lg"></div>
+            {
+              (currentUser._id === story.author._id) &&
+              <> 
+                <div className={`${styles.story_buttons}`}>
+                  <ButtonGroup className="rainbow-m-around_medium">
+                      <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>
+                      <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>
+                  </ButtonGroup>
+                </div>
+                {
+                  toggleDeleteOverlay && <div className={`flex flex__center ${styles.delete_overlay}`}>
+                      <div className={styles.delete_overlay_container}>
+                        <h2 className="spacing-md">Are you sure you want to delete this post?</h2>
+                        {errorDeleteStory && <MessageBox variant="danger">{errorDeleteStory} </MessageBox> }
+                        {loadingDeleteStory && <Spinner /> }
+                        {(errorDeleteStory || loadingDeleteStory) && <><br /><br /></>}
+                        <div className={`${styles.delete_overlay_container_button} spacing-md`}>
+                          <Button variant="secondary" onClick={handleDeleteAccount}>Delete</Button>
+                          <Button onClick={handleToggleDeleteOverlay}>Cancel</Button>
+                        </div>
+                        <Link className="soft-blue spacing-md" to={backLink}>Back</Link>
+                      </div>
+                  </div>
+                }
+              </>
+            }
+          </div> : <></>
+        }
+    </div>
+   
   )
 }
 
-export default EditProfile
+export default ShowStory
