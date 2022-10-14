@@ -54,7 +54,7 @@ const ShowStory = () => {
   const [toggleDeleteOverlay, setToggleDeleteOverlay] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
 
-  const backLink = location.search && location.search.split("=")[1] 
+  const backLink = location.search ? location.search.split("=")[1] : "/story"
 
   useEffect(() => {
     if(successDeleteStory){
@@ -183,11 +183,14 @@ const ShowStory = () => {
             {
               (currentUser._id === story.author._id) &&
               <> 
-                <div className={`${styles.story_buttons}`}>
+                <div className={`${styles.story_buttons} spacing-md`}>
                   <ButtonGroup className="rainbow-m-around_medium">
                       <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>
                       <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>
                   </ButtonGroup>
+                </div>
+                <div className={`${styles.back_link} spacing-md `} to={backLink}>
+                  <Link to={backLink}>Back</Link>
                 </div>
                 {
                   toggleDeleteOverlay && <div className={`flex flex__center ${styles.delete_overlay}`}>
@@ -200,7 +203,6 @@ const ShowStory = () => {
                           <Button variant="secondary" onClick={handleDeleteAccount}>Delete</Button>
                           <Button onClick={handleToggleDeleteOverlay}>Cancel</Button>
                         </div>
-                        <Link className="soft-blue spacing-md" to={backLink}>Back</Link>
                       </div>
                   </div>
                 }

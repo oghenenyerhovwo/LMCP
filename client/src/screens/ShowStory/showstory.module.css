@@ -207,6 +207,15 @@
    color: var(--color-softblue);
 }
 
+.back_link {
+   color: var(--color-softblue);
+   text-align: center;
+ }
+
+ .back_link:hover, .back_link:active {
+   color: var(--color-softred);
+ }
+
 @media screen and (min-width: 350px){
    .author{
       flex-direction: row;
