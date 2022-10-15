@@ -61,6 +61,10 @@
   color: var(--color-softblue);
 }
 
+.word_break{
+  word-break: break-all;
+}
+
 /* react rainbow */
 
 /* button menu ellipse */

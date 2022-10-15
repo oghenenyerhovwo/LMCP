@@ -188,11 +188,11 @@ const Profile = () => {
                         <h4 className="spacing-xs">Contact Information</h4>
                         <div className={`grid ${styles.about_section} spacing-sm`}>
                           <h3 className={styles.about_section_label}>Phone:</h3>
-                          <h3 className={`soft_blue ${styles.about_section_label_text}`}>{userByID.phoneNumber && `${userByID.phoneNumber.countryCode} ${Number(userByID.phoneNumber.phone)}`}</h3>
+                          <h3 className={`soft_blue ${styles.about_section_label_text} word_break`}>{userByID.phoneNumber && `${userByID.phoneNumber.countryCode} ${Number(userByID.phoneNumber.phone)}`}</h3>
                         </div>
                         <div className={`grid ${styles.about_section} spacing-sm`}>
                           <h3 className={styles.about_section_label}>Email:</h3>
-                          <h3 className={`soft_blue ${styles.about_section_label_text}`}>{userByID.email}</h3>
+                          <h3 className={`soft_blue ${styles.about_section_label_text} word_break`}>{userByID.email}</h3>
                         </div>
                       </div>
                       <div className={`${styles.about_buttons} spacing-lg`}>
