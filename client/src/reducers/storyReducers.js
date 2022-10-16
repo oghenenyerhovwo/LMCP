@@ -4,6 +4,11 @@ import {
     GET_STORIES_FAIL,
     GET_STORIES_RESET,
 
+    GET_STORIES_WITH_LIMIT_REQUEST,
+    GET_STORIES_WITH_LIMIT_SUCCESS,
+    GET_STORIES_WITH_LIMIT_FAIL,
+    GET_STORIES_WITH_LIMIT_RESET,
+
     GET_STORIES_MINE_REQUEST,
     GET_STORIES_MINE_SUCCESS,
     GET_STORIES_MINE_FAIL,
@@ -38,6 +43,12 @@ const initialState = {
     successGetStories: false,
     loadingGetStories: false,
     stories: [],
+
+     // get Stories
+     errorGetStoriesWithLimit: "",
+     successGetStoriesWithLimit: false,
+     loadingGetStoriesWithLimit: false,
+     storiesWithLimit: [],
 
     // get Stories
     errorGetStoriesMine: "",
@@ -95,9 +106,36 @@ const storyReducers =  (state = initialState, action) => {
     case GET_STORIES_RESET:
         return {
             ...state,
-            errorGetStoriesMine: "",
-            successGetStoriesMine: false,
-            loadingGetStoriesMine: false,
+            errorGetStories: "",
+            successGetStories: false,
+            loadingGetStories: false,
+        }
+
+    case GET_STORIES_WITH_LIMIT_REQUEST:
+        return {
+            ...state,
+            loadingGetStoriesWithLimit:  true,
+            errorGetStoriesWithLimit: "",
+        }
+    case GET_STORIES_WITH_LIMIT_SUCCESS:
+        return {
+            ...state,
+            loadingGetStoriesWithLimit:  false,
+            successGetStoriesWithLimit: true,
+            storiesWithLimit: action.payload.stories,
+        }
+    case GET_STORIES_WITH_LIMIT_FAIL:
+        return {
+            ...state,
+            loadingGetStoriesWithLimit:  false,
+            errorGetStoriesWithLimit: action.payload,
+        }
+    case GET_STORIES_WITH_LIMIT_RESET:
+        return {
+            ...state,
+            errorGetStoriesWithLimit: "",
+            successGetStoriesWithLimit: false,
+            loadingGetStoriesWithLimit: false,
         }
 
     case GET_STORIES_MINE_REQUEST:

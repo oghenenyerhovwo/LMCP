@@ -3,13 +3,24 @@ import Story from "../../../models/storyModel.js";
 // get Story
 export const getStories = async(req, res) => {
     try {
-        const stories= await Story.find().populate("author")
+        const stories= await Story.find().sort({date: -1}).populate("author")
         res.send({stories}) 
     } catch (error) {
         console.log(error)
         res.status(404).send({message: "Server error: Could not get all Story"})
     }
-}
+} 
+
+// get Story
+export const getStoriesWithLimit = async(req, res) => {
+    try {
+        const stories= await Story.find().sort({date: -1}).limit(Number(req.params.limitNumber)).populate("author")
+        res.send({stories}) 
+    } catch (error) {
+        console.log(error)
+        res.status(404).send({message: "Server error: Could not get all Story"})
+    }
+} 
 
 // get Story for user
 export const getStoriesMine = async(req, res) => {

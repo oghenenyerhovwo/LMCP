@@ -16,6 +16,7 @@ import TextEditor from "./TextEditor"
 import CommentSection from "./CommentSection"
 import CommentCard from "./CommentCard"
 import Avatar from "./Avatar"
+import AppContainer from "./AppContainer"
 
 export {
     Card,
@@ -36,4 +37,5 @@ export {
     CommentSection,
     CommentCard,
     Avatar,
+    AppContainer,
 }

@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 
@@ -16,55 +15,33 @@ import EditStory from "./screens/EditStory"
 import NotFound from "./screens/NotFound"
 
 // importing components
-import { Layout, Feedback, PrivateRoute } from "./components"
-
-
-// functions
-import { getUser } from "./actions"
+import { Layout, Feedback, PrivateRoute, AppContainer } from "./components"
 
 // css
 import "./App.css"
 
 function App() {
 
-  const dispatch = useDispatch()
-
-  const { 
-    currentUser, 
-    token ,
-    successDeleteUser,
-    successSignOut,
-    successUpdateUser,
-  }=  useSelector(state => state.userStore)
-
-  useEffect(() => {
-    if(token && !currentUser.email){
-      dispatch(getUser())
-    }
-  }, [currentUser, token, dispatch])
-
-  useEffect(() => {
-    if(successDeleteUser || successSignOut || successUpdateUser){
-      dispatch(getUser())
-    }
-  }, [dispatch, successDeleteUser, successSignOut, successUpdateUser])
+  
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/signup" element={<SignUp />} exact></Route> 
-        <Route path ="/signin" element={<SignIn />} exact></Route>
-        <Route path="/profile/:id" element={<PrivateRoute> <Layout><ProfileScreen /></Layout> </PrivateRoute>} exact></Route>
-        <Route path="/profile/:id/edit" element={<PrivateRoute> <><EditProfile /></> </PrivateRoute>} exact></Route>
-        
-        <Route path="/story" element={<> <Layout><Stories /></Layout> </>} exact></Route>
-        <Route path="/story/:id" element={<> <Layout><ShowStory /></Layout> </>} exact></Route>
-        <Route path="/story/create" element={<PrivateRoute> <Layout><CreateStory /></Layout> </PrivateRoute>} exact></Route>
-        <Route path="/story/:id/edit" element={<PrivateRoute> <Layout><EditStory /></Layout> </PrivateRoute>} exact></Route>
-        
-        <Route path="/" element={<Layout><HomeScreen /> <Feedback />  </Layout> } exact></Route>
-        <Route path="*" element={<NotFound /> }></Route>
-      </Routes>
+      <AppContainer>
+        <Routes>
+          <Route path="/signup" element={<SignUp />} exact></Route> 
+          <Route path ="/signin" element={<SignIn />} exact></Route>
+          <Route path="/profile/:id" element={<PrivateRoute> <Layout><ProfileScreen /></Layout> </PrivateRoute>} exact></Route>
+          <Route path="/profile/:id/edit" element={<PrivateRoute> <><EditProfile /></> </PrivateRoute>} exact></Route>
+          
+          <Route path="/story" element={<> <Layout><Stories /></Layout> </>} exact></Route>
+          <Route path="/story/:id" element={<> <Layout><ShowStory /></Layout> </>} exact></Route>
+          <Route path="/story/create" element={<PrivateRoute> <Layout><CreateStory /></Layout> </PrivateRoute>} exact></Route>
+          <Route path="/story/:id/edit" element={<PrivateRoute> <Layout><EditStory /></Layout> </PrivateRoute>} exact></Route>
+          
+          <Route path="/" element={<Layout><HomeScreen /> <Feedback />  </Layout> } exact></Route>
+          <Route path="*" element={<NotFound /> }></Route>
+        </Routes>
+      </AppContainer>
     </BrowserRouter>
   );
 }

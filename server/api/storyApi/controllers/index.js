@@ -1,5 +1,5 @@
 import { createStory, updateStory,deleteStory } from "./post.controller.js"
-import { getStory, getStories, getStoriesMine } from "./get.controller.js"
+import { getStory, getStories, getStoriesMine, getStoriesWithLimit } from "./get.controller.js"
 
 export {
     createStory,
@@ -8,4 +8,5 @@ export {
     updateStory,
     deleteStory,
     getStoriesMine,
+    getStoriesWithLimit,
 }

@@ -1,7 +1,7 @@
 import express from "express";
 import { isAuth } from "../../utils/index.js"
 
-import { createStory, updateStory, deleteStory, getStory, getStories, getStoriesMine } from "./controllers/index.js";
+import { createStory, updateStory, deleteStory, getStory, getStories, getStoriesMine, getStoriesWithLimit } from "./controllers/index.js";
 
 
 const router = express.Router();
@@ -11,6 +11,13 @@ router.get(
     "/", 
     (req, res) => {
         getStories(req, res)
+});
+
+// get Story with limit
+router.get(
+    "/limit/:limitNumber", 
+    (req, res) => {
+        getStoriesWithLimit(req, res)
 });
 
 // get Story for user

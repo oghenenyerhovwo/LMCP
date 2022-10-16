@@ -1,5 +1,5 @@
 import { createStory, updateStory, deleteStory } from "./storyActions/postActions"
-import { getStory, getStories, getStoriesMine } from "./storyActions/getActions"
+import { getStory, getStories, getStoriesMine, getStoriesWithLimit } from "./storyActions/getActions"
 
 // import { createRent, updateRent } from "./rentActions/postActions"
 // import { getRents } from "./rentActions/getActions"
@@ -23,6 +23,7 @@ export {
     updateStory,
     getStoriesMine,
     deleteStory,
+    getStoriesWithLimit,
 
     // createRent,
     // updateRent,

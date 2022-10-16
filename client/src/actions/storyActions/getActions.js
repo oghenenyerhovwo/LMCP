@@ -5,6 +5,10 @@ import {
     GET_STORIES_SUCCESS,
     GET_STORIES_FAIL,
 
+    GET_STORIES_WITH_LIMIT_REQUEST,
+    GET_STORIES_WITH_LIMIT_SUCCESS,
+    GET_STORIES_WITH_LIMIT_FAIL,
+
     GET_STORIES_MINE_REQUEST,
     GET_STORIES_MINE_SUCCESS,
     GET_STORIES_MINE_FAIL,
@@ -25,6 +29,19 @@ export const getStories = () => (dispatch) =>  {
         dispatch({type: GET_STORIES_SUCCESS, payload: res.data})
       })
       .catch(err => dispatch({type: GET_STORIES_FAIL, payload: setError(err)}));
+}
+
+export const getStoriesWithLimit = (limit) => (dispatch) =>  { 
+  dispatch({type: GET_STORIES_WITH_LIMIT_REQUEST, payload: limit})
+
+    axios
+      .get(
+        `${backend_url}/stories/route/limit/${limit}`,
+      )
+      .then(res => {
+        dispatch({type: GET_STORIES_WITH_LIMIT_SUCCESS, payload: res.data})
+      })
+      .catch(err => dispatch({type: GET_STORIES_WITH_LIMIT_FAIL, payload: setError(err)}));
 }
 
 export const getStoriesMine = () => (dispatch, getState) =>  { 

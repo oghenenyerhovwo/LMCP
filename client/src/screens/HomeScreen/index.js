@@ -1,18 +1,41 @@
-import React, {useState} from "react"
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from "react"
+import { useSelector, useDispatch } from 'react-redux'
 import styles from './style.module.css'
 
-import { AiOutlineDoubleRight } from "react-icons/ai"
-
-import { Card, Button, Tab } from "../../components"
-import { homeArticles, activitiesTab, activitiesContent, homeFaq } from "../../utils"
+import { Card, Button, Tab, StoryCard, Spinner } from "../../components"
+import { activitiesTab, activitiesContent, homeFaq } from "../../utils"
 import { amenPicture } from "../../assets"
+
+// functions
+import { getStoriesWithLimit } from "../../actions"
+
+// type
+import { GET_STORIES_WITH_LIMIT_RESET } from "../../constants/storyConstants"
 
 
 const Home = () => {
+  const dispatch = useDispatch()
+
   const { currentUser } =  useSelector(state => state.userStore)
 
   const [tab, setTab] = useState("tab2")
+
+  // state
+  const {
+    successGetStoriesWithLimit,
+    loadingGetStoriesWithLimit,
+    storiesWithLimit,
+  } =  useSelector(state => state.storyStore)
+
+  useEffect(() => {
+    dispatch(getStoriesWithLimit(3))
+  }, [dispatch])
+
+  useEffect(() => {
+    if(successGetStoriesWithLimit){
+      dispatch({type: GET_STORIES_WITH_LIMIT_RESET})
+    }
+  }, [dispatch, successGetStoriesWithLimit])  
   
   return (
     <section className="container">
@@ -78,20 +101,11 @@ const Home = () => {
 
           <div className={`${styles.home_articles_cards}`}> 
 
+            {loadingGetStoriesWithLimit && <Spinner />}
             {
-              homeArticles.length > 0 && homeArticles.map(article => (
-                <React.Fragment key={article._id}>
-                    <Card.Container className={`${styles[`home_articles_card${article._id}`]} `}>
-                      <Card.Head>
-                        <Card.Image src={article.img} alt="crossImg" />
-                      </Card.Head>
-                      <Card.Body>
-                        <Card.Heading>{article.heading}</Card.Heading>
-                        <Card.Paragraph>{article.paragraph} </Card.Paragraph>
-                        <Button type="link" variant="primary" href={article.btnLink} block={true}><span>{article.btnText} </span> <AiOutlineDoubleRight /></Button>
-                      </Card.Body>
-                      
-                  </Card.Container>
+              storiesWithLimit.length > 0 && storiesWithLimit.map(story => (
+                <React.Fragment key={story._id}>
+                    <StoryCard story={story} />
                 </React.Fragment>
               ))
             }
