@@ -40,6 +40,7 @@
 .dqLANY:disabled{
   border: none!important;
   outline: none!important;
+  outline: 0px!important;
   background: #F0F0F0!important;
 
 }

@@ -22,7 +22,7 @@
     margin-top: 0.1em;
     padding-left: .5em;
     padding-right: .5em;
-    padding-top: .5em;
+    padding-top: .5em;                                                               
     padding-bottom: .5em;
 
   }
@@ -41,6 +41,11 @@
     outline: none;
     background: #F0F0F0;
 
+  }
+
+  input[type="text"],   input[type="password"], input[type="number"], textarea, select{
+  outline: 0px!important;
+  outline: none,
   }
 
 .form__checkbox_and_link{
