@@ -53,6 +53,9 @@ export const deleteAllUsers = async(req, res) => {
 export const getUserById = async(req, res) => {
     try {
         const foundUser= await User.findById(req.params.id);
+        if(!foundUser){
+            return res.status(404).send({message: "Profile Not Found"})
+        }
         res.json({user: foundUser});       
     } catch (error) {
         console.log(error)
