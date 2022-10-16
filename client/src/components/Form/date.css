@@ -4,7 +4,8 @@
 
 
 
-.cgPtkm {
+.cgPtkm ,
+.dqLANY{
   width: 100%!important;
   background: transparent !important;
   border-bottom: 0.1px solid var(--color-softblue) !important;
@@ -23,7 +24,10 @@
 
 .cgPtkm:active,
 .cgPtkm:focus,
-.cgPtkm:focus-visible{
+.cgPtkm:focus-visible,
+.dqLANY:active,
+.dqLANY:focus,
+.dqLANY:focus-visible{
   outline: none!important;
   border-bottom: 0.1px solid var(--color-softblue)!important;
   border-left: none!important;
@@ -32,7 +36,8 @@
   box-shadow: none!important;
 }
 
-.cgPtkm:disabled{
+.cgPtkm:disabled,
+.dqLANY:disabled{
   border: none!important;
   outline: none!important;
   background: #F0F0F0!important;
