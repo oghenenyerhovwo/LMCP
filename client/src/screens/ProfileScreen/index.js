@@ -10,13 +10,14 @@ import {MdArticle} from "react-icons/md"
 import { FaUser, FaPlus, FaPen } from "react-icons/fa"
 
 // import { Card, Button, Tab } from "../../components"
-import { Tab, Button, MessageBox, Spinner, StoryCard, Avatar } from "../../components"
+import { Tab, Button, MessageBox, Spinner, StoryCard } from "../../components"
 
 // objects and functions
 import { getUserById, signOut, deleteUser, updateUser, getStoriesMine } from "../../actions"
 import { GET_USER_BY_ID_RESET, DELETE_USER_RESET, UPDATE_USER_RESET } from "../../constants/userConstants"
 import { GET_STORIES_MINE_RESET } from "../../constants/storyConstants"
 import { firebaseStorage } from '../../utils/'
+import { blankProfilePic } from '../../assets/'
 
 // import { ProfileArticles, activitiesTab, activitiesContent, homeFaq } from "../../utils"
 
@@ -262,7 +263,7 @@ const Profile = () => {
               {
                 userByID.profilePic ?
                 <img className={`spacing-md ${styles.profile_pic}`} src={userByID.profilePic} alt="userPic" /> :  
-                <div className={`spacing-md ${styles.profile_pic}`} > <Avatar gender={userByID.gender} /> </div>
+                <div className={`spacing-md ${styles.profile_pic}`} > <img src={blankProfilePic} alt="blankProfilePic" /> </div>
               }   
               {(currentUser._id === userByID._id) && (
                 <> 

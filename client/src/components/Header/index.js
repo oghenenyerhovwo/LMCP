@@ -34,10 +34,10 @@ const Header = () => {
     <header className={`container ${styles.app_header_container}`}>
       <div className={`flex ${styles.navbar}`}>
         <div className={`${styles.nav_brand}`}>
-          <h3><img src={logo} alt="logo" /> Easy Rent</h3>
+          <h3><img src={logo} alt="logo" /> LMCP</h3>
           {/* <Image src="/logo.png" width="128" height="77" alt="logo" /> */}
         </div>
-        <nav className={`flex ${styles.nav_items}`} >
+        <nav className={`flex ${styles.nav_items}`}>
           <ul className="flex">
             <li><Link className={`${styles.nav_links}`} to="/">Home</Link></li>
             <li><Link className={`${styles.nav_links}`} to="/about">About</Link></li>
@@ -46,7 +46,7 @@ const Header = () => {
           </ul>            
         </nav>
         {
-          currentUser.email ? <Link  className="flex flex__center" to={`/profile/${currentUser._id}`}><span className={styles.name}>{currentUser.fullName.split(" ")[0]}</span> <span className={styles.profile_pic}><Avatar gender={currentUser.gender} /></span> </Link>:
+          currentUser.email ? <Link  className="flex flex__center" to={`/profile/${currentUser._id}`}><span className={styles.name}>{currentUser.fullName.split(" ")[0]}</span> {currentUser.profilePic ? <img className={styles.profile_pic} src={currentUser.profilePic} alt="profile_pic" /> : <span className={styles.profile_pic}><Avatar gender={currentUser.gender} /></span>  } </Link>:
           <div className={styles.nav_button_container}><Link className={styles.nav_button}  to="/signin"><span>Join</span> <span className={styles.nav_button_overlay}></span> </Link></div>
         }
         <div onClick={handleToggleMenu} className={`${styles.menu_icon}`}><GiHamburgerMenu /></div>

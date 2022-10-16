@@ -9,6 +9,7 @@ import logo from "./IMG-20220908-WA0020.jpg"
 import userPic from "./IMG_20210909_151232_752-01.jpeg"
 import FemaleAvatar from "./icons8-circled-user-female-skin-type-4-96.png"
 import MaleAvatar from "./icons8-circled-user-male-skin-type-6-48.png"
+import blankProfilePic from "./avatar-g7a2db7856_1280.png"
 
 export {
     testImg,
@@ -22,4 +23,5 @@ export {
     userPic,
     FemaleAvatar,
     MaleAvatar,
+    blankProfilePic,
 }

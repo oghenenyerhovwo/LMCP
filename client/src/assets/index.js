@@ -10,6 +10,7 @@ import {
     logo,
     poorChildrenPic,
     userPic,
+    blankProfilePic,
 } from "./images"
 
 export {
@@ -24,4 +25,5 @@ export {
     logo,
     poorChildrenPic,
     userPic,
+    blankProfilePic,
 }
