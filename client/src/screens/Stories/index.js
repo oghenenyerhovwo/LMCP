@@ -37,26 +37,29 @@ const Stories = () => {
   }, [dispatch, successGetStories])  
 
   return (
-    <div className={`${styles.stories} container`}>
+    <div className={`container`}>
       {loadingGetStories && <Spinner />} 
       {errorGetStories && <MessageBox variant="danger">{errorGetStories} </MessageBox>}
       <div className={styles.stories_button}>
           <Button type="link" href="/story/create" variant="primary">Create A Post</Button>
       </div>
-        
-      {
-        stories.length > 0 ?
-        <>
-            {
-              stories.map(story => (
-                <React.Fragment key={story._id}>
-                    <StoryCard story={story} />
-                </React.Fragment>
-              ))
-            }
-          
-        </>: <></>
-      }
+
+      <div className={`${styles.stories}`}>
+          {
+            stories.length > 0 ?
+            <>
+                {
+                  stories.map(story => (
+                    <React.Fragment key={story._id}>
+                        <StoryCard story={story} />
+                    </React.Fragment>
+                  ))
+                }
+              
+            </>: <></>
+          }   
+      </div>
+      
     </div>
   )
 }

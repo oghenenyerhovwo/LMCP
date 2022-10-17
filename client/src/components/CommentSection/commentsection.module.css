@@ -61,6 +61,25 @@
   border-right: none;
 }
 
+.post_button_big_screen{
+    margin-top: 1rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    color: var(--color-softblue);
+    cursor: pointer;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.post_button_big_screen:hover{
+    color: #fff;
+    background: var(--color-softblue);
+}
+
+
 @media screen and (min-width: 550px){
     .post_section{
         flex-direction: row;
@@ -70,5 +89,13 @@
 
     .input_section{
         width: 80%;
+    }
+
+    .post_button_small_screen{
+        display: none;
+    }
+
+    .post_button_big_screen{
+        display: flex;
     }
 }

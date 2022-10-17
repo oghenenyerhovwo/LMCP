@@ -8,7 +8,7 @@ import Button from "../Button"
 import Spinner from "../Spinner"
 import MessageBox from "../MessageBox"
 import CommentCard from "../CommentCard"
-import { FaPlane } from "react-icons/fa"
+import { RiSendPlaneFill } from "react-icons/ri"
 
 import { createComment } from "../../actions"
 
@@ -49,7 +49,7 @@ const CommentSection = props => {
     }
 
     const handleSubmit = e => {
-        dispatch(createComment(form,storyId))
+        form.text && dispatch(createComment(form,storyId))
     }
 
     return (
@@ -74,7 +74,15 @@ const CommentSection = props => {
                 {loadingCreateComment && <Spinner />}
                 {
                     currentUser._id ?
-                    <Button disabled={!form.text} onClick={handleSubmit}  variant="primary">Post <FaPlane /> </Button> :
+                    <>
+                        <div className={styles.post_button_small_screen}>
+                            <Button block={true} disabled={!form.text} onClick={handleSubmit}  variant="primary">Post <RiSendPlaneFill /> </Button>
+                        </div>
+
+                        <div className={`${styles.post_button_big_screen} ${!form.text && styles.post_button_big_screen_disabled}`}>
+                            <RiSendPlaneFill disabled={!form.text}  onClick={handleSubmit} />
+                        </div>
+                    </> :
                     <Button type="link" href={`/signin/?redirect=${location.pathname}`}  variant="primary">Post</Button> 
                 }
             </div>
