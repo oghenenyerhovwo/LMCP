@@ -90,6 +90,53 @@
   }  
 }
 
+.aims{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, auto));
+  column-gap: 2rem;
+  justify-items: center;
+  align-items: stretch;
+}
+
+.aims_card{
+  margin-top: 2em;
+  box-shadow: rgba(17,12,46,0.15) 0px
+  4px 3px 0px;
+  width: min(100%, 15rem);
+  display: flex;
+  flex-direction: column;
+  padding: 1em 1.5em;
+  border-radius: 2rem;
+  transition: 0.5s;
+}
+
+.aims_card_number{
+  align-self: center;
+  background: var(--color-softblue);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  height: 1.6rem;
+  width: 1.6rem;
+  border-radius: 50%;
+  transition: 0.5s;
+}
+
+.aims_card_text{
+  font-size: 0.9rem;
+}
+
+.aims_card:hover{
+  background: var(--color-softblue);
+  color: #fff;
+}
+
+.aims_card:hover .aims_card_number{
+  color: var(--color-softblue);
+  border: 1px solid var(--color-softblue);
+  background: #fff;
+}
+
 .home_mission_activities_item{
   display: flex;
   flex-direction: column;

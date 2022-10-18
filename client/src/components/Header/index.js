@@ -23,9 +23,9 @@ const Header = () => {
   const handleToggleMenu = e => {
     const navItemElement = document.querySelector(`.${styles.nav_items}`)
     if(toggleMenu){
-      navItemElement.style.width = "0"
+      navItemElement.style.top = "-1000%"
     } else {
-      navItemElement.style.width = "100%"
+      navItemElement.style.top = "100%"
     }
     setToggleMenu(prevToggle => !prevToggle)
   }

@@ -1,4 +1,4 @@
-import { homeArticles, activitiesTab,activitiesContent, homeFaq } from "./homeObj"
+import { homeArticles, activitiesTab,activitiesContent, homeFaq, aims } from "./homeObj"
 import { onChangeError, onSubmitError } from "./formHandling"
 import Category from "./productCategory"
 import { 
@@ -66,4 +66,5 @@ export {
     activitiesContent,
     truncate,
     setTagArray,
+    aims,
 }
