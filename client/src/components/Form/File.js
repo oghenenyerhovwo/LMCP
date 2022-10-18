@@ -13,7 +13,7 @@ const containerStyles = {
 // Our app
 const FileComponent = props => {
 
-  const { accept, icon, name, label, onChange, error, type, preview, clearPreview, loadingPercent } = props
+  const { accept, icon, name, label, onChange, error, type, preview, clearPreview, loadingPercent, multiple } = props
 
   return (
     <div className="app_input spacing-md" style={containerStyles}>
@@ -28,12 +28,13 @@ const FileComponent = props => {
                   style={containerStyles}
                   uploadIcon={icon}
                   placeholder="Drag & Drop or Click to Browse"
-                  bottomHelpText="Select only one file"
+                  bottomHelpText={multiple ? "Can select multiple files" :  "Select only one file"}
                   variant="multiline"
                   onChange={onChange}
                   error={error}
                   accept={accept}
                   name={name}
+                  multiple={multiple}
                 /> 
               </div>
               <div className="file_smallscreen">
@@ -41,12 +42,13 @@ const FileComponent = props => {
                   className="rainbow-m-vertical_x-large rainbow-p-horizontal_medium rainbow-m_auto"
                   style={containerStyles}
                   placeholder="Drag & Drop or Click to Browse"
-                  bottomHelpText="Can select multiple files"
+                  bottomHelpText={multiple ? "Can select multiple files" :  "Select only one file"}
                   uploadIcon={icon}
                   onChange={onChange}
                   error={error}
                   accept={accept}
                   name={name}
+                  multiple={multiple}
                 />
               </div>
             </>

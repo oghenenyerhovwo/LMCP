@@ -1,6 +1,7 @@
 import User from "../../../models/userModel.js"
 import Story from "../../../models/storyModel.js";
 import Comment from "../../../models/commentModel.js";
+import Event from "../../../models/eventModel.js";
 
 import { findUser } from "./userFunctions.js"
 
@@ -78,6 +79,7 @@ export const deleteUser = async(req, res) => {
         
         await deleteActivitiesOfAccount(Story, foundUser)
         await deleteActivitiesOfAccount(Comment, foundUser)
+        await deleteActivitiesOfAccount(Event, foundUser)
 
 
         const deletedUser= await User.findByIdAndDelete(req.params.id);
