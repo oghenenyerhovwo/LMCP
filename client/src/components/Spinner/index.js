@@ -5,7 +5,7 @@ import "./style.css"
 
 const Spinner = () => {
     return (
-        <div className="app__spinner">
+        <div className="app__spinner flex flex__center">
             <FaSpinner />
         </div>
     )

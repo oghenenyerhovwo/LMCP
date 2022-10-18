@@ -11,13 +11,14 @@ const Button = props => {
         type,
         disabled,
         onClick,
+        error,
     } = props
   return (
     <>
       {
         type === "link" ?
         <Link 
-          className={`btn btn-${variant }  ${block && `flex flex__center btn-block` }`} 
+          className={`btn btn-${variant } spacing-sm  ${block && `flex flex__center btn-block` }`} 
           to={href || "#"}
           disabled={disabled}
           onClick={onClick}
@@ -25,7 +26,7 @@ const Button = props => {
             {children} 
         </Link>:
         <button 
-          className={`btn btn-${variant }  ${block && `flex flex__center btn-block` }`} 
+          className={`btn btn-${variant } spacing-sm   ${block && `flex flex__center btn-block` }`} 
           to={href || "#"}
           disabled={disabled}
           onClick={onClick}
@@ -33,6 +34,8 @@ const Button = props => {
           {children}
         </button>
       }
+      {error && <p className="btn-error"><em>{"/* Make sure all required fields are filled */"}</em> </p>}
+
     </>
   )
 }

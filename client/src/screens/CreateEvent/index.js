@@ -14,7 +14,7 @@ import styles from "./createevent.module.css"
 
 // functions and objects
 import { createEvent } from "../../actions"
-import { firebaseStorage, onSubmitError, onChangeError } from '../../utils/'
+import { firebaseStorage, onSubmitError, onChangeError, objectToArray } from '../../utils/'
 
 // type
 import { CREATE_STORY_RESET } from "../../constants/storyConstants"
@@ -35,28 +35,31 @@ const CreateEvent = () => {
   } =  useSelector(state => state.storyStore)
 
   const initialFormState = {
-    content: "",
+    text: "",
     title: "",
-    video: "",
-    image: "",
-    subtitle: "",
+    videos: [],
+    images: [],
     tags: "",
+    date: new Date('2019-10-25 10:44'),
   }
 
   const initialErrorState = {
-    content: "",
+    text: "",
     title: "",
-    image: "",
+    images: {min: 1, text: ""},
+    date: "",
+    tags: "",
   }
   const [form, setForm] = useState(initialFormState)
   const [error, setError] = useState(initialErrorState)
+  const [submitError, setSubmitError] = useState(false)
   const [uploadError, setUploadError] = useState({
     video: "",
     image: "",
   })
   const [percent, setPercent] = useState({
-    video: 0,
-    image: 0,
+    videos: 0,
+    images: 0,
   });
 
   useEffect(() => {
@@ -66,17 +69,20 @@ const CreateEvent = () => {
     }
   }, [dispatch, successCreateEvent, idCreateEvent, location.search, navigate])
 
-  const ResetImage = () => {
-    setForm({...form, image: ""})
+  const ResetImage = (id) => {
+    setForm({...form, images: form["images"].filter(image => image._id !== id)})
   }
   
-  const ResetVideo = () => {
-    setForm({...form, video: ""})
+  const ResetVideo = (id) => {
+    setForm({...form, videos: form["videos"].filter(video => video._id !== id)})
   }
   const handleSubmit = e => {
     e.preventDefault()
+    setSubmitError(false)
     if(!onSubmitError(form, error, setError)){
         dispatch(createEvent(form))
+    } else{
+      setSubmitError(true)
     }
   }
 
@@ -87,38 +93,48 @@ const CreateEvent = () => {
   }
 
   const handleFileChange = (fileList, name) => {
+    console.log(form)
     if(fileList && fileList[0]){
       try {
-        setUploadError("")
-        const file = fileList[0]
-        const storageRef = ref(firebaseStorage, `/files/${file.name}`)
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const currentPercent = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-
-            // update progress
-            setPercent({...percent, [name]: currentPercent})
-          },
-          (err) => {
-            console.log(err)
-            setUploadError("Error while uploading file")
-          },
-          () => {
-            // download url
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              setForm({...form, [name]: url})
-              setPercent({...percent, [name]: 0})
-              if(name === "image"){
-                onChangeError("image", url, form, error, setError)
-              }
-            });
-          }
-        )
+        const fileListArr = objectToArray(fileList)
+        fileListArr.map(async file => {
+          setUploadError("")
+          const storageRef = ref(firebaseStorage, `/files/${file.name}`)
+          const uploadTask = uploadBytesResumable(storageRef, file);
+      
+          await uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const currentPercent = Math.round(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              );
+      
+              // update progress
+              setPercent({...percent, [name]: currentPercent})
+            },
+            (err) => {
+              console.log(err)
+              setUploadError("Error while uploading file")
+            },
+            async () => {
+              // download url
+              await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                setPercent({...percent, [name]: 0})
+                if(name === "image"){
+                  onChangeError("image", url, form, error, setError)
+                }
+                
+                setForm(prevForm =>{ 
+                  return  {
+                    ...prevForm, 
+                    [name]: [...prevForm[name], {url: url, _id: prevForm[name].length + 1 }]
+                  }
+                  }
+                )
+              });
+            }
+          )
+        })
       } catch (error) {
         console.log(error)
         setUploadError("Error while uploading file")
@@ -132,11 +148,15 @@ const CreateEvent = () => {
     onChangeError("content", data, form, error, setError)
   }
 
+  const handleDate = date => {
+    setForm({...form, date: date})
+  }
+
   return (
     <div className={`${styles.createevent} container`}>
         
       <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
-        <h1 className="spacing-md">Create Post Section</h1>
+        <h1 className="spacing-md">Add New Event</h1>
         
         {loadingCreateEvent && <Spinner />}
         {errorCreateEvent && <MessageBox variant="danger">{errorCreateEvent} </MessageBox>}
@@ -152,21 +172,6 @@ const CreateEvent = () => {
         />
 
         <Form.Input 
-          label="Subtitle"
-          onChange={handleChange}
-          value={form.subtitle}
-          type="text"
-          name="subtitle"
-        />
-
-        <TextEditor
-          onChange={handleEditor}
-          error={error.content}
-          required={true}
-          placeholder="Write about something"
-        />
-
-        <Form.Input 
           label="Tags"
           onChange={handleChange}
           value={form.tags}
@@ -174,35 +179,55 @@ const CreateEvent = () => {
           name="tags"
         />
 
+        <Form.Date
+          label="Date"
+          error={error.date}
+          required={true}
+          onChange={handleDate}
+          value={form.date}
+          name="date"
+        />
+
+        <TextEditor
+          onChange={handleEditor}
+          error={error.text}
+          required={true}
+          placeholder="Write about this event"
+        />
+
+        
+
         <div className="spacing-lg"></div>
 
         <Form.File 
-          onChange={value => handleFileChange(value, "image")} 
+          onChange={value => handleFileChange(value, "images")} 
           icon={<AiFillPicture />}  
-          label={"Image"}
-          type="image"
-          error={uploadError.video || error.image}
+          label={"Images"}
+          type="images"
+          error={uploadError.images || error.images.text}
           preview={form.image}
           clearPreview={ResetImage}
-          loadingPercent={percent.image}
+          loadingPercent={percent.images}
           accept="image/*"
+          multiple={true}
         />
 
         <Form.File 
-          onChange={value => handleFileChange(value, "video")} 
+          onChange={value => handleFileChange(value, "videos")} 
           icon={<BsFillCameraVideoFill />}  
           label={"Video"}
-          type="video"
-          error={uploadError.video}
+          type="videos"
+          error={uploadError.videos || error.videos}
           preview={form.video}
           clearPreview={ResetVideo}
-          loadingPercent={percent.video}
+          loadingPercent={percent.videos}
           accept="video/*"
+          multiple={true}
         />
         <div className="spacing-lg"></div>
 
 
-        <Button variant="primary" block={true} className="spacing-sm" type="submit">Post</Button>
+        <Button variant="primary" error={submitError} block={true} className="spacing-sm" type="submit">Post</Button>
       </form>
 
     </div>

@@ -211,7 +211,7 @@ const EditStory = () => {
               icon={<AiFillPicture />}  
               label={"Image"}
               type="image"
-              error={uploadError.video || error.image}
+              error={uploadError.image || error.image}
               preview={form.image}
               clearPreview={ResetImage}
               loadingPercent={percent.image}
@@ -223,7 +223,7 @@ const EditStory = () => {
               icon={<BsFillCameraVideoFill />}  
               label={"Video"}
               type="video"
-              error={uploadError.video}
+              error={uploadError.video || error.video}
               preview={form.video}
               clearPreview={ResetVideo}
               loadingPercent={percent.video}

@@ -31,13 +31,11 @@ export const onChangeError = (name, value, form, error, setError) => {
         if(typeof(error[key]) === "object" ){
           if (key === "images"){
             let isObjError = false
-            form[key].map(obj => {
-              if(!obj.url){
-                isObjError = true
-                keyObject[key] = {...error[key], text: `There must be at least ${error[key].min} images`}
-              }
-              return obj
-            })
+
+            if(error[key].min > form[key].length){
+              isObjError = true
+              keyObject[key] = {...error[key], text: `There must be at least ${error[key].min} image(s)`}
+            }
             isError=isObjError
           }
         }
@@ -57,5 +55,6 @@ export const onChangeError = (name, value, form, error, setError) => {
       }
     }
     setError({...error, ...keyObject})
+    console.log({...error, ...keyObject})
     return isError
   }

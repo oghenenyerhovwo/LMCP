@@ -1,4 +1,4 @@
-import { crossImg,  ministerToThePoor, christmasWithChildren } from "../assets"
+import { crossImg,  ministerToThePoor, christmasWithChildren } from "../../assets"
 
 
 export const activitiesContent = [
