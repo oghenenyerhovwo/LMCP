@@ -31,6 +31,7 @@ import {
     
 } from "../constants/eventConstants";
 
+
 const initialState = {
 
     // get events
@@ -125,33 +126,6 @@ const EventReducers =  (state = initialState, action) => {
             errorGetEventsWithLimit: "",
             successGetEventsWithLimit: false,
             loadingGetEventsWithLimit: false,
-        }
-
-    case GET_EVENTS_MINE_REQUEST:
-        return {
-            ...state,
-            loadingGetEventsMine:  true,
-            errorGetEventsMine: "",
-        }
-    case GET_EVENTS_MINE_SUCCESS:
-        return {
-            ...state,
-            loadingGetEventsMine:  false,
-            successGetEventsMine: true,
-            eventsMine: action.payload.events,
-        }
-    case GET_EVENTS_MINE_FAIL:
-        return {
-            ...state,
-            loadingGetEventsMine:  false,
-            errorGetEventsMine: action.payload,
-        }
-    case GET_EVENTS_MINE_RESET:
-        return {
-            ...state,
-            errorGetEventsMine: "",
-            successGetEventsMine: false,
-            loadingGetEventsMine: false,
         }
 
     case CREATE_EVENT_REQUEST:

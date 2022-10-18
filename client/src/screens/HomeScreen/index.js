@@ -110,6 +110,7 @@ const Home = () => {
               ))
             }
           </div>
+          <Button type="link" variant="primary" href="/event">See All</Button>
         </section>
 
         <section className={`${styles.home_articles} spacing-xl`}>

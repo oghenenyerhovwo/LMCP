@@ -12,11 +12,13 @@ import Layout from "./Layout"
 import PrivateRoute from "./PrivateRoute"
 import VideoPlayer from "./VideoPlayer"
 import StoryCard from "./Story"
+import EventCard from "./Event"
 import TextEditor from "./TextEditor"
 import CommentSection from "./CommentSection"
 import CommentCard from "./CommentCard"
 import Avatar from "./Avatar"
 import AppContainer from "./AppContainer"
+import AdminRoute from "./AdminRoute"
 
 export {
     Card,
@@ -33,9 +35,11 @@ export {
     PrivateRoute,
     VideoPlayer,
     StoryCard,
+    EventCard,
     TextEditor,
     CommentSection,
     CommentCard,
     Avatar,
     AppContainer,
+    AdminRoute,
 }

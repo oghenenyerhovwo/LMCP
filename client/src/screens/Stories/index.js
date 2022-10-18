@@ -40,8 +40,9 @@ const Stories = () => {
     <div className={`container`}>
       {loadingGetStories && <Spinner />} 
       {errorGetStories && <MessageBox variant="danger">{errorGetStories} </MessageBox>}
+
       <div className={styles.stories_button}>
-          <Button type="link" href="/story/create" variant="primary">Create A Post</Button>
+        <Button type="link" href="/story/create" variant="primary">Create A Post</Button>
       </div>
 
       <div className={`${styles.stories}`}>
