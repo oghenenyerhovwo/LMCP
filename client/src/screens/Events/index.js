@@ -42,7 +42,7 @@ const Events = () => {
 
   return (
     <div className={`container`}>
-      {loadingGetEvents && <Spinner />} 
+      {loadingGetEvents && <Spinner />}
       {errorGetEvents && <MessageBox variant="danger">{errorGetEvents} </MessageBox>}
 
       {
@@ -61,7 +61,7 @@ const Events = () => {
                 {
                   events.map(event => (
                     <React.Fragment key={event._id}>
-                        <EventCard story={event} />
+                        <EventCard event={event} />
                     </React.Fragment>
                   ))
                 }

@@ -16,27 +16,25 @@ const EventCard = props => {
 
     const location = useLocation()
 
-    const { event } = props 
+    const { event } = props
 
     return (
-        <Card.Container>
-            <Card.Head>
-                {/* <Card.Image src={event.image || event.video} alt="crossImg" /> */}
-            </Card.Head>
-            <Card.Body>
-            <div className={styles.author}>
-                <img src={userPic} alt="crossImg" />
-                <div>
-                    <Card.SubHeading>{event.author && event.author.fullName}</Card.SubHeading>
-                    <p> {String(new Date(event.createdAt)).slice(0, 15)}</p>
-                </div>
+        <div className={`spacing-md ${styles.event}`}>
+            <div className={`${styles.event_date} flex flex__column flex__center`}>
+                <h1> {String(new Date(event.createdAt)).slice(0, 4)}</h1>
+                <h2>
+                    <span>{String(new Date(event.createdAt)).slice(8, 11)}</span>
+                    <span>{String(new Date(event.createdAt)).slice(4, 8)}</span>
+                </h2>
             </div>
-            <Card.Heading>{event.title}</Card.Heading>
-            <Card.Paragraph>{truncate(htmlToText(event.content), 200)}&hellip; </Card.Paragraph>
-            <Button type="link" variant="primary" href={`/event/${event._id}/?redirect=${location.pathname}`} block={true}>Read More<AiOutlineDoubleRight /></Button>
-            </Card.Body>
-            
-        </Card.Container>
+            <div className={`image ${styles.event_image}`}>
+                <img src={event.images && event.images[0] && event.images[0].url}  alt="eventImg" />
+            </div>
+            <div className={`${styles.home_mission_activities_item_text} flex flex__column flex__center`}>
+                <h2 className="spacing-sm">{event.title} </h2>
+                <p className="">{truncate(htmlToText(event.text), 200)}&hellip;</p>
+            </div>
+        </div>
     )
 }
 
