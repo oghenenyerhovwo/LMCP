@@ -1,20 +1,20 @@
 import React from 'react' 
 import htmlToText from "html-to-formatted-text"
-import { useLocation } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 
 import styles from "./event.module.css"
 
-import { AiOutlineDoubleRight } from "react-icons/ai"
-import Card from "../Card"
-import Button from "../Button"
+// import { AiOutlineDoubleRight } from "react-icons/ai"
+// import Card from "../Card"
+// import Button from "../Button"
 
-import { userPic } from "../../assets"
+// import { userPic } from "../../assets"
 import { truncate } from "../../utils"
 
 
 const EventCard = props => {
 
-    const location = useLocation()
+    // const location = useLocation()
 
     const { event } = props
 
