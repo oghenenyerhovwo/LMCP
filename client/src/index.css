@@ -29,6 +29,14 @@ body {
   scroll-behavior: smooth;
 }
 
+main{
+  z-index: 9;
+}
+
+header{
+  z-index: 99;
+}
+
 a {
   color: inherit;
   text-decoration: none;

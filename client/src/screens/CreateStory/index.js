@@ -62,7 +62,7 @@ const CreateStory = () => {
   useEffect(() => {
     if(successCreateStory){
       dispatch({type: CREATE_STORY_RESET})
-      navigate(location.search ? location.search.split("=")[1] : `/story/?storyid=${idCreateStory}` )
+      navigate(location.search ? location.search.split("=")[1] : `/story/${idCreateStory}` )
     }
   }, [dispatch, successCreateStory, idCreateStory, location.search, navigate])
 

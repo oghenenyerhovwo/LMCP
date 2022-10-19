@@ -32,7 +32,7 @@ const CreateEvent = () => {
     successCreateEvent,
     loadingCreateEvent,
     idCreateEvent,
-  } =  useSelector(state => state.storyStore)
+  } =  useSelector(state => state.eventStore)
 
   const initialFormState = {
     text: "",
@@ -65,7 +65,7 @@ const CreateEvent = () => {
   useEffect(() => {
     if(successCreateEvent){
       dispatch({type: CREATE_STORY_RESET})
-      navigate(location.search ? location.search.split("=")[1] : `/story/?storyid=${idCreateEvent}` )
+      navigate(location.search ? location.search.split("=")[1] : `/event/${idCreateEvent}` )
     }
   }, [dispatch, successCreateEvent, idCreateEvent, location.search, navigate])
 
@@ -120,8 +120,8 @@ const CreateEvent = () => {
               // download url
               await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                 setPercent({...percent, [name]: 0})
-                if(name === "image"){
-                  onChangeError("image", url, form, error, setError)
+                if(name === "images"){
+                  onChangeError("images", url, form, error, setError)
                 }
                 
                 setForm(prevForm =>{ 
@@ -144,8 +144,8 @@ const CreateEvent = () => {
 
   const handleEditor = ( event, editor ) => {
     const data = editor.getData();
-    setForm({...form, content: data})
-    onChangeError("content", data, form, error, setError)
+    setForm({...form, text: data})
+    onChangeError("text", data, form, error, setError)
   }
 
   const handleDate = date => {
