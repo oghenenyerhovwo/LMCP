@@ -19,7 +19,7 @@ import EditStory from "./screens/EditStory"
 import NotFound from "./screens/NotFound"
 
 // importing components
-import { Layout, Feedback, PrivateRoute, AppContainer, AdminRoute } from "./components"
+import { Layout, Feedback, PrivateRoute, AppContainer, AdminOrSuperAdmin } from "./components"
 
 // css
 import "./App.css"
@@ -44,8 +44,8 @@ function App() {
           
           <Route path="/event" element={<> <Layout><Events /></Layout> </>} exact></Route>
           <Route path="/event/:id" element={<> <><ShowEvent /></> </>} exact></Route>
-          <Route path="/event/create" element={<PrivateRoute> <Layout>  <AdminRoute>  <CreateEvent /> </AdminRoute> </Layout> </PrivateRoute>} exact></Route>
-          <Route path="/event/:id/edit" element={<PrivateRoute> <Layout>  <AdminRoute>  <EditEvent /> </AdminRoute> </Layout> </PrivateRoute>} exact></Route>
+          <Route path="/event/create" element={<PrivateRoute> <Layout>  <AdminOrSuperAdmin>  <CreateEvent /> </AdminOrSuperAdmin> </Layout> </PrivateRoute>} exact></Route>
+          <Route path="/event/:id/edit" element={<PrivateRoute> <Layout>  <AdminOrSuperAdmin>  <EditEvent /> </AdminOrSuperAdmin> </Layout> </PrivateRoute>} exact></Route>
           {/* <Route path="/event/:id/edit" element={<PrivateRoute> <Layout><EditStory /></Layout> </PrivateRoute>} exact></Route> */}
           
         
