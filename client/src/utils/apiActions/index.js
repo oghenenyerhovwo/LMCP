@@ -4,8 +4,8 @@
 
 
 // Online
-export const backend_url = "https://lmcp.herokuapp.com/api"
-export const frontend_url = "https://lmcp.vercel.app/"
+// export const backend_url = "https://lmcp.herokuapp.com/api"
+// export const frontend_url = "https://lmcp.vercel.app/"
 
 export const setError = (err) => {
     return err.response && err.response.data.message ? err.response.data.message : err.message
