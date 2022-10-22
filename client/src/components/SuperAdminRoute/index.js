@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 import MessageBox from "../MessageBox"
 
 
-const AdminRoute = props => {
+const SuperAdminRoute = props => {
     const location = useLocation()
     const dispatch = useDispatch()
 
@@ -14,7 +14,7 @@ const AdminRoute = props => {
     const [message, setMessage] = useState("")
 
     useEffect(() => {
-      if(( currentUser.role !== "admin" && currentUser.role !== "superAdmin") ){
+      if((currentUser.role !== "superAdmin") ){
         setMessage("You need to be logged in as an admin. Log out and log back in with an admin account")
       }
     }, [currentUser.email,dispatch, currentUser.role, location.pathname ])
@@ -22,9 +22,9 @@ const AdminRoute = props => {
     return (
         <>
             {message && <MessageBox>{message}  </MessageBox>}
-            {(currentUser.role === "admin" || currentUser.role === "superAdmin") && props.children}
+            {(currentUser.role === "superAdmin") && props.children}
         </>
     )
 }
 
-export default AdminRoute
+export default SuperAdminRoute

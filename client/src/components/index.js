@@ -20,6 +20,7 @@ import Avatar from "./Avatar"
 import AppContainer from "./AppContainer"
 import AdminRoute from "./AdminRoute"
 import Countdown from "./Countdown"
+import SuperAdminRoute from "./SuperAdminRoute"
 
 export {
     Card,
@@ -44,4 +45,5 @@ export {
     AppContainer,
     AdminRoute,
     Countdown,
+    SuperAdminRoute,
 }
