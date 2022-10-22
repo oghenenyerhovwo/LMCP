@@ -25,9 +25,6 @@ import { Layout, Feedback, PrivateRoute, AppContainer, AdminOrSuperAdmin } from 
 import "./App.css"
 
 function App() {
-
-  
-
   return (
     <BrowserRouter>
       <AppContainer>
