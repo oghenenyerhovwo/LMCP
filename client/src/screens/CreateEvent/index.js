@@ -17,7 +17,7 @@ import { createEvent } from "../../actions"
 import { firebaseStorage, onSubmitError, onChangeError, objectToArray } from '../../utils/'
 
 // type
-import { CREATE_STORY_RESET } from "../../constants/storyConstants"
+import { CREATE_EVENT_RESET } from "../../constants/eventConstants"
 
 
 const CreateEvent = () => {
@@ -40,6 +40,7 @@ const CreateEvent = () => {
     videos: [],
     images: [],
     tags: "",
+    bannerImgs:  [],
     date: new Date('2019-10-25 10:44'),
   }
 
@@ -49,22 +50,25 @@ const CreateEvent = () => {
     images: {min: 1, text: ""},
     date: "",
     tags: "",
+    bannerImgs: {min: 1, text: ""},
   }
   const [form, setForm] = useState(initialFormState)
   const [error, setError] = useState(initialErrorState)
   const [submitError, setSubmitError] = useState(false)
   const [uploadError, setUploadError] = useState({
-    video: "",
-    image: "",
+    videos: "",
+    images: "",
+    bannerImgs: "",
   })
   const [percent, setPercent] = useState({
     videos: 0,
     images: 0,
+    bannerImgs: 0,
   });
 
   useEffect(() => {
     if(successCreateEvent){
-      dispatch({type: CREATE_STORY_RESET})
+      dispatch({type: CREATE_EVENT_RESET})
       navigate(location.search ? location.search.split("=")[1] : `/event/${idCreateEvent}` )
     }
   }, [dispatch, successCreateEvent, idCreateEvent, location.search, navigate])
@@ -93,7 +97,6 @@ const CreateEvent = () => {
   }
 
   const handleFileChange = (fileList, name) => {
-    console.log(form)
     if(fileList && fileList[0]){
       try {
         const fileListArr = objectToArray(fileList)
@@ -179,7 +182,7 @@ const CreateEvent = () => {
           name="tags"
         />
 
-        <Form.Date
+        <Form.DateTime
           label="Date"
           error={error.date}
           required={true}
@@ -200,12 +203,25 @@ const CreateEvent = () => {
         <div className="spacing-lg"></div>
 
         <Form.File 
+          onChange={value => handleFileChange(value, "bannerImgs")} 
+          icon={<AiFillPicture />}  
+          label={"Banner Images"}
+          type="bannerImgs"
+          error={uploadError.bannerImgs || error.bannerImgs.text}
+          preview={form.bannerImgs}
+          clearPreview={ResetImage}
+          loadingPercent={percent.bannerImgs}
+          accept="image/*"
+          multiple={true}
+        />
+
+        <Form.File 
           onChange={value => handleFileChange(value, "images")} 
           icon={<AiFillPicture />}  
           label={"Images"}
           type="images"
           error={uploadError.images || error.images.text}
-          preview={form.image}
+          preview={form.images}
           clearPreview={ResetImage}
           loadingPercent={percent.images}
           accept="image/*"
@@ -218,7 +234,7 @@ const CreateEvent = () => {
           label={"Video"}
           type="videos"
           error={uploadError.videos || error.videos}
-          preview={form.video}
+          preview={form.videos}
           clearPreview={ResetVideo}
           loadingPercent={percent.videos}
           accept="video/*"
@@ -227,7 +243,7 @@ const CreateEvent = () => {
         <div className="spacing-lg"></div>
 
 
-        <Button variant="primary" error={submitError} block={true} className="spacing-sm" type="submit">Post</Button>
+        <Button variant="primary" error={submitError} block={true} className="spacing-sm" type="submit">Create Event</Button>
       </form>
 
     </div>

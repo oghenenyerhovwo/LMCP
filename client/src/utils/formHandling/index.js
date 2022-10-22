@@ -55,6 +55,5 @@ export const onChangeError = (name, value, form, error, setError) => {
       }
     }
     setError({...error, ...keyObject})
-    console.log({...error, ...keyObject})
     return isError
   }

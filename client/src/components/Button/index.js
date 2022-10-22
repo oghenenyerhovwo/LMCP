@@ -12,13 +12,14 @@ const Button = props => {
         disabled,
         onClick,
         error,
+        size,
     } = props
   return (
     <>
       {
         type === "link" ?
         <Link 
-          className={`btn btn-${variant } spacing-sm  ${block && `flex flex__center btn-block` }`} 
+          className={`btn btn-${variant } btn-${size || "lg" } spacing-sm  ${block && `flex flex__center btn-block` }`} 
           to={href || "#"}
           disabled={disabled}
           onClick={onClick}
@@ -26,7 +27,7 @@ const Button = props => {
             {children} 
         </Link>:
         <button 
-          className={`btn btn-${variant } spacing-sm   ${block && `flex flex__center btn-block` }`} 
+          className={`btn btn-${variant } btn-${size || "lg" } spacing-sm   ${block && `flex flex__center btn-block` }`} 
           to={href || "#"}
           disabled={disabled}
           onClick={onClick}

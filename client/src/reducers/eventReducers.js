@@ -167,7 +167,7 @@ const EventReducers =  (state = initialState, action) => {
             ...state,
             loadingGetEvent:  false,
             successGetEvent: true,
-            Event: action.payload.event,
+            event: action.payload.event,
         }
     case GET_EVENT_FAIL:
         return {

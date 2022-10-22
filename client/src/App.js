@@ -11,6 +11,8 @@ import EditProfile from "./screens/EditProfile"
 import CreateStory from "./screens/CreateStory"
 import Stories from "./screens/Stories"
 import CreateEvent from "./screens/CreateEvent"
+import ShowEvent from "./screens/ShowEvent"
+import EditEvent from "./screens/EditEvent"
 import Events from "./screens/Events"
 import ShowStory from "./screens/ShowStory"
 import EditStory from "./screens/EditStory"
@@ -41,8 +43,9 @@ function App() {
           <Route path="/story/:id/edit" element={<PrivateRoute> <Layout><EditStory /></Layout> </PrivateRoute>} exact></Route>
           
           <Route path="/event" element={<> <Layout><Events /></Layout> </>} exact></Route>
-          {/* <Route path="/event/:id" element={<> <Layout><ShowStory /></Layout> </>} exact></Route> */}
+          <Route path="/event/:id" element={<> <><ShowEvent /></> </>} exact></Route>
           <Route path="/event/create" element={<PrivateRoute> <Layout>  <AdminRoute>  <CreateEvent /> </AdminRoute> </Layout> </PrivateRoute>} exact></Route>
+          <Route path="/event/:id/edit" element={<PrivateRoute> <Layout>  <AdminRoute>  <EditEvent /> </AdminRoute> </Layout> </PrivateRoute>} exact></Route>
           {/* <Route path="/event/:id/edit" element={<PrivateRoute> <Layout><EditStory /></Layout> </PrivateRoute>} exact></Route> */}
           
         

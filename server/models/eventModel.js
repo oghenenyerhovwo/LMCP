@@ -7,6 +7,7 @@ const eventSchema = new Schema({
     title: {type: String, required: true},
     videos: {type: Array},
     images: {type: Array},
+    bannerImgs: {type: Array},
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

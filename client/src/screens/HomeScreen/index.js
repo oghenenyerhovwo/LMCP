@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './style.module.css'
+import moment from "moment"
 
-import { Card, Button, Tab, StoryCard, Spinner } from "../../components"
-import { activitiesTab, activitiesContent, homeFaq, aims } from "../../utils"
+import { Card, Button, Tab, StoryCard, Spinner, EventCard } from "../../components"
+import { activitiesTab, homeFaq, aims } from "../../utils"
 import { amenPicture } from "../../assets"
 
 // functions
-import { getStoriesWithLimit } from "../../actions"
+import { getStoriesWithLimit, getEvents } from "../../actions"
 
 // type
 import { GET_STORIES_WITH_LIMIT_RESET } from "../../constants/storyConstants"
+import { GET_EVENTS_WITH_LIMIT_RESET } from "../../constants/eventConstants"
 
 
 const Home = () => {
@@ -18,7 +20,9 @@ const Home = () => {
 
   const { currentUser } =  useSelector(state => state.userStore)
 
-  const [tab, setTab] = useState("tab2")
+  const [tab, setTab] = useState(activitiesTab[0].eventKey)
+
+  const [tabEvents, setTabEvents] = useState([])
 
   // state
   const {
@@ -27,19 +31,49 @@ const Home = () => {
     storiesWithLimit,
   } =  useSelector(state => state.storyStore)
 
+  // state
+  const {
+    successGetEvents,
+    loadingGetEvents,
+    events,
+  } =  useSelector(state => state.eventStore)
+
   useEffect(() => {
     dispatch(getStoriesWithLimit(3))
+    dispatch(getEvents(2))
   }, [dispatch])
 
   useEffect(() => {
     if(successGetStoriesWithLimit){
       dispatch({type: GET_STORIES_WITH_LIMIT_RESET})
     }
-  }, [dispatch, successGetStoriesWithLimit])  
+
+    if(successGetEvents){
+      dispatch({type: GET_EVENTS_WITH_LIMIT_RESET})
+    }
+  }, [dispatch, successGetStoriesWithLimit, successGetEvents])  
+
+  useEffect(() => {
+    setTabEvents(
+      events.filter(event => {
+        const eventTime = moment(event.date)
+        const nowTime = moment()
+        if(tab === "past"){
+          return eventTime.isBefore(nowTime)
+        }
+        else if(tab === "future"){
+          return eventTime.isAfter(nowTime)
+        }
+        return false
+      })
+    )
+  }, [ events, tab]) 
   
   return (
     <section className="container">
       <div className={`${styles.home}`}>
+
+      {(loadingGetStoriesWithLimit || loadingGetEvents) && <Spinner />}
 
       <section className={`${styles.home_intro} grid spacing-xl`}>
           <div className={`${styles.home_intro_text}`}>
@@ -88,24 +122,11 @@ const Home = () => {
           </Tab.Container>
       
 
-          <div className={`${styles.home_mission_activities_items}`}>
+          <div className={`${styles.events}`}>
             {
-              activitiesContent.length > 0 && activitiesContent.map(activity => (
-                  <div className={`spacing-md ${styles.home_mission_activities_item}`} key={activity._id}>
-                      { 
-                        activity.eventKey && activity.eventKey.includes(tab)  && (
-                          <>
-                            <div className={`image ${styles.home_mission_activities_item_image}`}>
-                                <img src={activity.img}  alt="testImg" />
-                            </div>
-                            <div className={`${styles.home_mission_activities_item_text}`}>
-                                <h2 className="spacing-md">{activity.title} </h2>
-                                <p className="spacing-md">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex, dignissimos doloremque ducimus a eaque impedit aut rem facere earum magnam nobis delectus? Saepe iusto ad, dolorum architecto minus dolorem nemo!</p>
-                                <Button type="link" variant="primary" href={activity.btnLink}>{activity.btnText}</Button>
-                            </div>
-                          </>
-                        )
-                      } 
+              tabEvents.length > 0 && tabEvents.map(event => (
+                  <div className={`spacing-md ${styles.event}`} key={event._id}>
+                      <EventCard event={event} />
                   </div>
               ))
             }
@@ -119,7 +140,6 @@ const Home = () => {
 
           <div className={`${styles.home_articles_cards}`}> 
 
-            {loadingGetStoriesWithLimit && <Spinner />}
             {
               storiesWithLimit.length > 0 && storiesWithLimit.map(story => (
                 <React.Fragment key={story._id}>

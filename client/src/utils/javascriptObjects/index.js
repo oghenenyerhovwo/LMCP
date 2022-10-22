@@ -31,18 +31,13 @@ export const activitiesContent = [
 export const activitiesTab = [
     {
         _id: 1, 
-        label: "Charity Works",
-        eventKey: "tab1",
+        label: "Past Events",
+        eventKey: "past",
     },
     {
         _id: 2, 
-        label: "Promoting the Faith",
-        eventKey: "tab2",
-    },
-    {
-        _id: 3, 
-        label: "Self Development",
-        eventKey: "tab3"
+        label: "Future Events",
+        eventKey: "future",
     },
 ]
 

@@ -19,29 +19,46 @@
   border: none;
 }
 
-.btn-block{
-  width: 100%;
-  text-align: center;
-}
-
-.btn-primary{
-  background-color: var(--color-softblue);
-  background: linear-gradient(to right, var(--color-softblue), hsl(231, 30%, 55%));
-  color: var(--color-white);
-}
-
-.btn:hover{
-  padding: 0.7em 1.1em;
-}
-
 .btn svg{
   margin-left: 0.5em;
 }
 
+.btn-error{
+  color: var(--color-softred);
+}
+
+/* sizes */
+.btn-lg{
+  transition: ease-in-out .5s;
+}
+
+.btn-lg:hover{
+  transition: ease-in-out .5s;
+  padding: 0.7em 1.1em;
+}
+
+.btn-sm{
+  transition: ease-in-out .5s;
+  padding: 0.3em 0.6em;
+  font-size: 0.6rem;
+}
+
+.btn-sm:hover{
+  padding: 0.4em 0.8em;
+}
+
+/* color */
+.btn-primary{
+  background-color: var(--color-softblue);
+  background: linear-gradient(to right, var(--color-softblue), hsl(231, 30%, 55%));
+  color: var(--color-white);
+  transition: ease-in-out .5s;
+}
 .btn-secondary{
   background-color: var(--color-softblue);
   background: linear-gradient(to right, var(--color-softred), hsl(0, 50%, 65%));
   color: var(--color-white);
+  transition: ease-in-out .5s;
 }
 
 .btn-primary:hover,
@@ -49,11 +66,20 @@
   color: var(--color-white);
 }
 
-.btn:disabled{
-  padding: 0.7em 1.1em;
-  cursor: not-allowed;
+
+/* others */
+.btn-block{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  transition: ease-in-out .5s;
 }
 
-.btn-error{
-  color: var(--color-softred);
+.btn-block:hover{
+  width: 90%;
+}
+
+.btn:disabled{
+  cursor: not-allowed;
+  filter: lighten(90%);
 }

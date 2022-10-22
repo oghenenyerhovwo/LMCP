@@ -6,7 +6,7 @@ import File from "./File";
 // import Time from "./Time";
 import Date from "./Date";
 import PhoneNumber from "./PhoneNumber";
-
+import DateTime from "./DateTime";
 
 import "./index.css"
 
@@ -19,6 +19,7 @@ const Form = {
     // Time,
     Dropdown,
     PhoneNumber,
+    DateTime,
 }
 
 export default Form

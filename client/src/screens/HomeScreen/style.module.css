@@ -1,6 +1,5 @@
 .home h2{
   text-align: center;
-  color: var( --color-darkblue);
 }
 
 .home p{
@@ -9,7 +8,6 @@
 
 .home_intro h1{
   text-align: center;
-  color: var( --color-darkblue);
 }
 
 .home_intro_img{
@@ -137,47 +135,15 @@
   background: #fff;
 }
 
-.home_mission_activities_item{
+.events{
   display: flex;
   flex-direction: column;
-}
-
-.home_mission_activities_item_image{
-  margin-bottom: 2em;
-  position: relative;
-}
-
-.home_mission_activities_item_image span{
-  position: static !important; 
-}
-
-.home_mission_activities_item_image img{
-  width: min(100%, 20rem) !important; 
-  max-height: 22rem !important; 
-  object-fit: cover !important; 
-  position: static !important; 
-  height: auto !important;
+  align-items: center;
 }
 
 
 
 @media screen and (min-width: 600px){
-  .home_mission_activities_item{
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .home_mission_activities_item_image{
-      width: 16rem;
-  }
-
-  .home_mission_activities_item_image img{
-    height: 14rem !important; 
-  }
-
-  .home_mission_activities_item_text{
-    flex: 1;
-    margin-left: 2em;
-  }
   
 }
 

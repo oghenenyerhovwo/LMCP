@@ -19,6 +19,7 @@ import CommentCard from "./CommentCard"
 import Avatar from "./Avatar"
 import AppContainer from "./AppContainer"
 import AdminRoute from "./AdminRoute"
+import Countdown from "./Countdown"
 
 export {
     Card,
@@ -42,4 +43,5 @@ export {
     Avatar,
     AppContainer,
     AdminRoute,
+    Countdown,
 }

@@ -84,7 +84,7 @@ const EditStory = () => {
   useEffect(() => {
     if(successUpdateStory){
       dispatch({type: UPDATE_STORY_RESET})
-      navigate(location.search ? location.search.split("=")[1] : `/story/?storyid=${idUpdateStory}` )
+      navigate(location.search ? location.search.split("=")[1] : `/story/${idUpdateStory}` )
     }
   }, [dispatch, successUpdateStory, idUpdateStory, location.search, navigate])
 
@@ -155,7 +155,6 @@ const EditStory = () => {
 
   const presetEditor = editor => {
     editor.setData(story.content)
-      console.log(`Editor ${editor}`)
   } 
 
   return (
@@ -231,8 +230,8 @@ const EditStory = () => {
             />
             <div className="spacing-lg"></div>
 
-
             <Button variant="primary" block={true} className="spacing-sm" type="submit">Update</Button>
+          
           </form>
         }
 
