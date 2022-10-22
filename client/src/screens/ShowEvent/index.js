@@ -142,7 +142,7 @@ const ShowEvent = () => {
             </div>
             <div className="spacing-lg"></div>
             {
-              (currentUser._id === event.author._id) &&
+              (currentUser.role === "admin" || currentUser.role === "superAdmin" ) &&
               <> 
                 <div className={`${styles.event_buttons} container spacing-md`}>
                   <ButtonGroup className="rainbow-m-around_medium">

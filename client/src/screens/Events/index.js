@@ -68,7 +68,7 @@ const Events = () => {
       {errorGetEvents && <MessageBox variant="danger">{errorGetEvents} </MessageBox>}
 
       {
-        (currentUser.role === "admin" || currentUser.email === "oghenenyerhovwoemakuneyi@gmail.com") &&
+        (currentUser.role === "admin" || currentUser.role === "superAdmin" || currentUser.email === "oghenenyerhovwoemakuneyi@gmail.com") &&
           (
             <div className={styles.events_button}>
                 <Button type="link" href="/event/create" variant="primary">Add An Event</Button>
