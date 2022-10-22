@@ -1,5 +1,5 @@
 import { sendConfirmationEmail, sendPasswordResetEmail } from "./email.js"
-import { generateToken, isAuth, isAuthor, isAdmin, isAgent, isClient, isLandlord } from "./auth.js"
+import { generateToken, isAuth, isAuthor, isAdmin, isSuperAdmin } from "./auth.js"
 
 
 export  {
@@ -8,10 +8,8 @@ export  {
   generateToken,
   isAuth,
   isAuthor,
-  isAgent,
   isAdmin,
-  isClient,
-  isLandlord,
+  isSuperAdmin,
 }
 
 

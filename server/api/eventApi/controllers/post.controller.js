@@ -1,6 +1,6 @@
 import Event from "../../../models/eventModel.js";
 import Comment from "../../../models/commentModel.js";
-import { isAdmin, isAuthor } from "../../../utils/index.js"
+import { isAdmin, isSuperAdmin } from "../../../utils/index.js"
 
 // create Event
 export const createEvent = async(req, res) => {
@@ -8,7 +8,7 @@ export const createEvent = async(req, res) => {
         const user= req.user
 
         // only admins create events
-        if(!isAdmin(user)){
+        if(!isAdmin(user) && !isSuperAdmin(user)){
             return res.status(404).send({message: "You need to be an admin to do that"})
         }
 
@@ -29,7 +29,7 @@ export const updateEvent = async(req, res) => {
         if(foundEvent){
             const user= req.user
             // check if the current user is an admin
-            if(!isAdmin(user)){
+            if(!isAdmin(user) && !isSuperAdmin(user)){
                 return res.status(404).send({message: "You need to be an admin to do that"})
             }
             const updatedEvent = await Event.findByIdAndUpdate(EventId, req.body)
@@ -51,7 +51,7 @@ export const deleteEvent = async(req, res) => {
         if(foundEvent){
             const user= req.user
             // check if the current user is an admin
-            if(!isAdmin(user)){
+            if(!isAdmin(user) && !isSuperAdmin(user)){
                 return res.status(404).send({message: "You need to be an admin to do that"})
             }
             foundEvent.comments.forEach(async id => {

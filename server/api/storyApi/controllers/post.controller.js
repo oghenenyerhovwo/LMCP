@@ -1,6 +1,6 @@
 import Story from "../../../models/storyModel.js";
 import Comment from "../../../models/commentModel.js";
-import { isAdmin, isAuthor } from "../../../utils/index.js"
+import { isAdmin, isAuthor, isSuperAdmin } from "../../../utils/index.js"
 
 // create story
 export const createStory = async(req, res) => {
@@ -23,8 +23,8 @@ export const updateStory = async(req, res) => {
         if(foundStory){
             const author= foundStory.author
             const user= req.user
-            // check if the current user owns the Story or is an admin
-            if(!isAuthor(user, author) && !isAdmin(user)){
+            // check if the current user owns the Story
+            if(!isAuthor(user, author)){
                 return res.status(404).send({message: "You need to be the owner or an admin to do that"})
             }
             const updatedStory = await Story.findByIdAndUpdate(storyId, req.body)
@@ -47,7 +47,7 @@ export const deleteStory = async(req, res) => {
             const user= req.user
             const author= foundStory.author
             // check if the current user owns the Story or is an admin
-            if(!isAuthor(user, author) && !isAdmin(user)){
+            if(!isAuthor(user, author) && !isAdmin(user) && !isSuperAdmin(user)){
                 return res.status(404).send({message: "You need to be the owner or an admin to do that"})
             }
             foundStory.comments.forEach(async id => {

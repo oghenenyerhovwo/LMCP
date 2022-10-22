@@ -39,16 +39,8 @@ export const isAdmin=(user) => {
     return user.role == "admin"
 }
 
-export const isAgent=(user) => {
-  return user.role == "agent"
-}
-
-export const isClient=(user) => {
-  return user.role == "client"
-}
-
-export const isLandlord=(user) => {
-  return user.role == "landlord"
+export const isSuperAdmin=(user) => {
+  return user.role == "superAdmin"
 }
 
 export const isAuthor=(user, author) => {

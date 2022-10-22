@@ -1,6 +1,6 @@
 import Story from "../../../models/storyModel.js";
 import Comment from "../../../models/commentModel.js";
-import { isAdmin, isAuthor } from "../../../utils/index.js"
+import { isAdmin, isAuthor, isSuperAdmin } from "../../../utils/index.js"
 
 // create comment
 export const createComment = async(req, res) => {
@@ -43,7 +43,7 @@ export const deleteComment= async(req, res) => {
 
         const user= req.user
         const author= foundComment.author
-        if(!isAuthor(user, author) && !isAdmin(user)){
+        if(!isAuthor(user, author) && !isAdmin(user) && !isSuperAdmin(user)){
             return res.status(404).send({message: "You need to be the owner or an admin to do that"})
         }
 

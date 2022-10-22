@@ -5,7 +5,7 @@ import Event from "../../../models/eventModel.js";
 
 import { findUser } from "./userFunctions.js"
 
-import { isAdmin, isAuthor } from "../../../utils/index.js"
+import { isAdmin, isAuthor, isSuperAdmin } from "../../../utils/index.js"
 
 const deleteActivitiesOfAccount = async (Model, account) => {
     const allActivities = await Model.find().populate("author")
@@ -41,16 +41,6 @@ export const getAllUsers = async(req, res) => {
     }
 }
 
-export const deleteAllUsers = async(req, res) => {
-    try {
-        const allUsers= await User.deleteMany({});
-        res.json(allUsers);       
-    } catch (error) {
-        console.log(error)
-        res.status(404).send({message: "Server error: Could not find all users"})
-    }
-}
-
 export const getUserById = async(req, res) => {
     try {
         const foundUser= await User.findById(req.params.id);
@@ -73,7 +63,7 @@ export const deleteUser = async(req, res) => {
             return res.status(404).send({message: "Invalid account"})
         } 
         
-        if(!isAuthor(foundUser, foundAuthor) && !isAdmin(foundUser)){
+        if(!isAuthor(foundUser, foundAuthor) && !isAdmin(foundUser) && !isSuperAdmin(foundUser)){
             return res.status(404).send({message: "Only admins or owner of account is allowed"})
         } 
         
@@ -99,12 +89,13 @@ export const updateUser = async(req, res) => {
         if(!foundUser || !foundAuthor){
             return res.status(404).send({message: "Invalid account"})
         } 
-        
-        if(isAuthor(foundUser, foundAuthor)){
-            const updatedUser= await User.findByIdAndUpdate(req.params.id, req.body);
-            return res.json({id: updatedUser._id}); 
+
+        if(!isAuthor(foundUser, foundAuthor) && !isSuperAdmin(foundUser)){
+            return res.status(404).send({message: "Only super admins or owner of account is allowed"})
         } 
-        res.status(404).send({message: "Only admins or owner of account is allowed"})
+        
+        const updatedUser= await User.findByIdAndUpdate(req.params.id, req.body);
+        res.json({id: updatedUser._id}); 
               
     } catch (error) {
         console.log(error)
