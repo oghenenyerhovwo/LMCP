@@ -1,5 +1,5 @@
 import axios from "axios";
-import {setError, setHeader, backend_url} from "../../utils"
+import { setError, backend_url } from "../../utils"
 import { 
     GET_STORIES_REQUEST,
     GET_STORIES_SUCCESS,
@@ -44,14 +44,12 @@ export const getStoriesWithLimit = (limit) => (dispatch) =>  {
       .catch(err => dispatch({type: GET_STORIES_WITH_LIMIT_FAIL, payload: setError(err)}));
 }
 
-export const getStoriesMine = () => (dispatch, getState) =>  { 
-  dispatch({type: GET_STORIES_MINE_REQUEST})
-  const token= getState().userStore.token  
+export const getStoriesMine = (id) => (dispatch) =>  { 
+  dispatch({type: GET_STORIES_MINE_REQUEST, payload: id})
 
     axios
       .get(
-        `${backend_url}/stories/route/mine`,
-        setHeader(token)
+        `${backend_url}/stories/route/mine/${id}`
       )
       .then(res => {
         dispatch({type: GET_STORIES_MINE_SUCCESS, payload: res.data})

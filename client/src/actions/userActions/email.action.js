@@ -1,13 +1,13 @@
 import axios from "axios";
 import {setError, backend_url,setHeader} from "../../utils"
 import { 
-    SIGN_USER_RESET,
-
+  
     CONFIRM_EMAIL_REQUEST,
     CONFIRM_EMAIL_SUCCESS,
     CONFIRM_EMAIL_FAIL,
 
     SIGNOUT_USER,
+    SIGNOUT_USER_RESET,
 } from "../../constants/userConstants.js";
 
 import { signUserIn } from "./sign.util"
@@ -38,6 +38,6 @@ export const confirmEmail=(confirmationCode, confirmationType) => dispatch =>  {
 
 export const signOut = () => dispatch => {
     dispatch({type: SIGNOUT_USER})
-    dispatch({type: SIGN_USER_RESET})
+    dispatch({type: SIGNOUT_USER_RESET})
     localStorage.removeItem("lmcp_user_token")
 };

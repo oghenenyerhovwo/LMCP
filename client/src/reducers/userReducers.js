@@ -165,10 +165,16 @@ const userReducers =  (state = initialState, action) => {
             loadingConfirmEmail: false,
         }
     case SIGNOUT_USER:
-            return {...initialState, successSignOut: true, currentUser: {}, token: "",};
+            return {
+            ...initialState, 
+            successSignOut: true, 
+            currentUser: {}, 
+            token: "",
+            userByID: state.userByID,
+        };
 
     case SIGNOUT_USER_RESET:
-            return {...initialState, successSignOut: false, currentUser: {}, token: "", } ;
+            return {...initialState, successSignOut: false, currentUser: {}, token: "", userByID: state.userByID,} ;
             
 
     case GOOGLE_SIGN_IN_REQUEST:

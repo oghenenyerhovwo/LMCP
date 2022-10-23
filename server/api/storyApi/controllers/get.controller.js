@@ -25,7 +25,7 @@ export const getStoriesWithLimit = async(req, res) => {
 // get Story for user
 export const getStoriesMine = async(req, res) => {
     try {
-        const stories= await Story.find({author: req.user._id}).populate("author")
+        const stories= await Story.find({author: req.params.id}).populate("author")
         res.send({stories}) 
     } catch (error) {
         console.log(error)

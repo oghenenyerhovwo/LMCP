@@ -34,8 +34,8 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} exact></Route> 
           <Route path ="/signin" element={<SignIn />} exact></Route>
-          <Route path="/profile/" element={<PrivateRoute> <Layout><ProfileScreen /></Layout> </PrivateRoute>} exact></Route>
-          <Route path="/profile/:id" element={<PrivateRoute> <Layout><ProfileScreen /></Layout> </PrivateRoute>} exact></Route>
+          <Route path="/profile/" element={<> <Layout><ProfileScreen /></Layout> </>} exact></Route>
+          <Route path="/profile/:id" element={<> <Layout><ProfileScreen /></Layout> </>} exact></Route>
           <Route path="/profile/:id/edit" element={<PrivateRoute> <><EditProfile /></> </PrivateRoute>} exact></Route>
           
           <Route path="/story" element={<> <Layout><Stories /></Layout> </>} exact></Route>

@@ -48,6 +48,8 @@ const Profile = () => {
     userByID,
   } =  useSelector(state => state.userStore)
 
+  console.log(userByID)
+
   const {
     errorGetStoriesMine,
     successGetStoriesMine,
@@ -57,7 +59,7 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getUserById(params.id))
-    dispatch(getStoriesMine())
+    dispatch(getStoriesMine(params.id))
   }, [dispatch, params.id])
 
   useEffect(() => {

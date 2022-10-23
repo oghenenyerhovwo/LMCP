@@ -22,8 +22,7 @@ router.get(
 
 // get Story for user
 router.get(
-    "/mine", 
-    isAuth,
+    "/mine/:id", 
     (req, res) => {
         getStoriesMine(req, res)
 });

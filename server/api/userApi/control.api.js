@@ -15,7 +15,6 @@ router.get(
 
 router.get(
     "/:id",
-    isAuth,
     async(req, res) => {
         getUserById(req, res)
     }
@@ -40,7 +39,6 @@ router.delete(
 // remove all users
 router.get(
     "/all", 
-    isAuth,
     async(req, res) => {
         getAllUsers(req,res)
     }
