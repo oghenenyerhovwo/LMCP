@@ -4,15 +4,21 @@ import React from 'react'
 import Header from "../Header"
 import Footer from "../Footer"
 
+import styles from "./layout.module.css"
+
 const Layout = props => {
     return (
-        <>
-            <Header />
-            <main>
+        <div className={`${styles.layout}`}>
+            <header className={`${styles.header}`}>
+                <Header />
+            </header>
+            <main className={`${styles.main}`}>
                 {props.children}
             </main>
-            <Footer />
-        </>
+            <footer className={`${styles.footer}`}>
+                <Footer />
+            </footer>
+        </div>
     )
 }
 

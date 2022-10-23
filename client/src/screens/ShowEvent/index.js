@@ -16,7 +16,7 @@ import styles from "./showevent.module.css"
 // functions
 import { getEvent, deleteEvent } from "../../actions"
 import { poorChildrenPic } from "../../assets"
-import { setTagArray } from "../../utils"
+import { setTagArray, isSuperAdmin, isAdmin } from "../../utils"
 
 // type
 import { GET_EVENT_RESET, DELETE_EVENT_RESET } from "../../constants/eventConstants"
@@ -146,8 +146,8 @@ const ShowEvent = () => {
               <> 
                 <div className={`${styles.event_buttons} container spacing-md`}>
                   <ButtonGroup className="rainbow-m-around_medium">
-                      <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>
-                      <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>
+                    {(currentUser && (isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>}
+                    {(currentUser && (isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>}
                   </ButtonGroup>
                 </div>
                 <div className={`${styles.back_link} container spacing-md `} to={backLink}>

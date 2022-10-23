@@ -16,7 +16,7 @@ import { Tab, Button, MessageBox, Spinner, StoryCard } from "../../components"
 import { getUserById, signOut, deleteUser, updateUser, getStoriesMine } from "../../actions"
 import { GET_USER_BY_ID_RESET, DELETE_USER_RESET, UPDATE_USER_RESET } from "../../constants/userConstants"
 import { GET_STORIES_MINE_RESET } from "../../constants/storyConstants"
-import { firebaseStorage } from '../../utils/'
+import { firebaseStorage, isAdmin, isSuperAdmin, isAuthor } from '../../utils/'
 import { blankProfilePic } from '../../assets/'
 
 // import { ProfileArticles, activitiesTab, activitiesContent, homeFaq } from "../../utils"
@@ -197,9 +197,9 @@ const Profile = () => {
                         </div>
                       </div>
                       <div className={`${styles.about_buttons} spacing-lg`}>
-                        {(currentUser._id === userByID._id) && <Button type="link" href={`/profile/${currentUser._id}/edit/?redirect=${location.pathname}`} variant="primary">Edit Account</Button>}
-                        {(currentUser._id === userByID._id) && <Button onClick={handleSignOut}>Sign Out</Button>}
-                        {(currentUser.role === "admin" || currentUser._id === userByID._id) && <Button onClick={handleToggleDeleteOverlay} variant="secondary">Delete Account</Button>}
+                        {(currentUser && userByID && isAuthor(currentUser, userByID)) && <Button type="link" href={`/profile/${currentUser._id}/edit/?redirect=${location.pathname}`} variant="primary">Edit Account</Button>}
+                        {(currentUser && userByID && isAuthor(currentUser, userByID)) && <Button onClick={handleSignOut}>Sign Out</Button>}
+                        {(currentUser && userByID && (isAuthor(currentUser, userByID) || isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={handleToggleDeleteOverlay} variant="secondary">Delete Account</Button>}
                       </div>
                       {
                         toggleDeleteOverlay && <div className={`flex flex__center ${styles.delete_overlay}`}>
@@ -265,7 +265,7 @@ const Profile = () => {
                 <img className={`spacing-md ${styles.profile_pic}`} src={userByID.profilePic} alt="userPic" /> :  
                 <div className={`spacing-md ${styles.profile_pic}`} > <img src={blankProfilePic} alt="blankProfilePic" /> </div>
               }   
-              {(currentUser._id === userByID._id) && (
+              {(currentUser && userByID && isAuthor(currentUser, userByID)) && (
                 <> 
                   <div className={`grid spacing-sm ${styles.edit_pic}`}>
                     <div className={`btn btn-block btn-secondary ${styles.input_file_designed}`}>Edit <FaPen className={styles.editIcon} /></div>

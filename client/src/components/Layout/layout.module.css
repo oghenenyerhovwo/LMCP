@@ -1,0 +1,23 @@
+.layout{
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.header{
+    grid-column: span 12;
+    grid-row: 1;
+    margin-top: 1em;
+}
+
+.main{
+    grid-column: span 12;
+    grid-row: 2;
+}
+
+.footer{
+    grid-column: span 12;
+    grid-row: 3;
+    align-self: end;
+}
+

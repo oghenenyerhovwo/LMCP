@@ -1,8 +1,6 @@
 .footer{
     background: linear-gradient(to left, hsl(229, 31%, 31%), var(--color-darkblue), hsl(229, 31%, 31%));
     color: var(--color-white);
-    position: absolute;
-    top: 100%;
     width: 100%;
     z-index: 99;
 }

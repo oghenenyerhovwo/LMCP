@@ -5,22 +5,22 @@ import styles from "./footer.module.css"
 import { GrFacebookOption } from "react-icons/gr"
 import { BsTwitter } from "react-icons/bs"
 
-const Footer = () => {
+const Footer = props => {
 
   const facebookLink = "htps://m.facebook.com/LMCP-Lay-Missionaries-of-Christ-to-the-Poor-101140756065571"
   const twitterLink = "missiolmcp@gmai.com"
 
   return (
     <div className={styles.footer}>
-      
+      <div>{props.children} </div>
       <div className={`container ${styles.footer_container}`}> 
 
         <h4 className="spacing-md">LMCP TO THE WORLD</h4>
         
         <div className={`${styles.links} spacing-md`}>
-          <Link className={`spacing-sm ${styles.footer_link}`} to={"#"}>SUPPORT</Link>
-          <Link className={`spacing-sm ${styles.footer_link}`} to={"#"}>MEMBERSHIP</Link>
-          <Link className={`spacing-sm ${styles.footer_link}`} to={"#"}>WORKERS</Link>
+          <Link className={`spacing-sm ${styles.footer_link}`} to="/support">SUPPORT</Link>
+          <Link className={`spacing-sm ${styles.footer_link}`} to="/membership">MEMBERSHIP</Link>
+          <Link className={`spacing-sm ${styles.footer_link}`} to="/team">MEET THE TEAM</Link>
         </div>
 
         <div className={`${styles.connect} flex flex__column`}>

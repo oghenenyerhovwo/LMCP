@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { ref, uploadBytesResumable, getDownloadURL, } from "firebase/storage"
 
 
@@ -14,7 +14,7 @@ import styles from "./editstory.module.css"
 
 // functions and objects
 import { updateStory, getStory } from "../../actions"
-import { firebaseStorage, onSubmitError, onChangeError } from '../../utils/'
+import { firebaseStorage, onSubmitError, onChangeError, isAuthor } from '../../utils/'
 
 // type
 import { UPDATE_STORY_RESET, GET_STORY_RESET } from "../../constants/storyConstants"
@@ -37,6 +37,8 @@ const EditStory = () => {
     loadingGetStory,
     story,
   } =  useSelector(state => state.storyStore)
+
+  const { currentUser } = useSelector(state => state.userStore)
 
   const initialFormState = {
     content: "",
@@ -159,82 +161,89 @@ const EditStory = () => {
 
   return (
     <div className={`${styles.editstory} container`}>
-        {loadingGetStory && <Spinner />}
-        {errorGetStory && <MessageBox variant="danger">{errorGetStory} </MessageBox>}
-        
-        {story._id &&
-          <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
-            <h1 className="spacing-md">Edit Post Section</h1>
+      {
+        (currentUser && story.author && isAuthor(currentUser, story.author)) ? (
+          <>
+            {loadingGetStory && <Spinner />}
+            {errorGetStory && <MessageBox variant="danger">{errorGetStory} </MessageBox>}
             
-            {loadingUpdateStory && <Spinner />}
-            {errorUpdateStory && <MessageBox variant="danger">{errorUpdateStory} </MessageBox>}
-            
-            <Form.Input 
-              label="Title"
-              onChange={handleChange}
-              value={form.title}
-              error={error.title}
-              type="text"
-              name="title"
-              required={true}
-            />
+            {story._id &&
+              <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
+                <h1 className="spacing-md">Edit Post Section</h1>
+                
+                {loadingUpdateStory && <Spinner />}
+                {errorUpdateStory && <MessageBox variant="danger">{errorUpdateStory} </MessageBox>}
+                
+                <Form.Input 
+                  label="Title"
+                  onChange={handleChange}
+                  value={form.title}
+                  error={error.title}
+                  type="text"
+                  name="title"
+                  required={true}
+                />
 
-            <Form.Input 
-              label="Subtitle"
-              onChange={handleChange}
-              value={form.subtitle}
-              type="text"
-              name="subtitle"
-            />
+                <Form.Input 
+                  label="Subtitle"
+                  onChange={handleChange}
+                  value={form.subtitle}
+                  type="text"
+                  name="subtitle"
+                />
 
-            <TextEditor
-              onChange={handleEditor}
-              onReady={presetEditor}
-              error={error.content}
-              required={true}
-              placeholder="Write about something"
-              presetData={form.content}
-            />
+                <TextEditor
+                  onChange={handleEditor}
+                  onReady={presetEditor}
+                  error={error.content}
+                  required={true}
+                  placeholder="Write about something"
+                  presetData={form.content}
+                />
 
-            <Form.Input 
-              label="Tags"
-              onChange={handleChange}
-              value={form.tags}
-              type="text"
-              name="tags"
-            />
-            <div className="spacing-lg"></div>
+                <Form.Input 
+                  label="Tags"
+                  onChange={handleChange}
+                  value={form.tags}
+                  type="text"
+                  name="tags"
+                />
+                <div className="spacing-lg"></div>
 
-            <Form.File 
-              onChange={value => handleFileChange(value, "image")} 
-              icon={<AiFillPicture />}  
-              label={"Image"}
-              type="image"
-              error={uploadError.image || error.image}
-              preview={form.image}
-              clearPreview={ResetImage}
-              loadingPercent={percent.image}
-              accept="image/*"
-            />
+                <Form.File 
+                  onChange={value => handleFileChange(value, "image")} 
+                  icon={<AiFillPicture />}  
+                  label={"Image"}
+                  type="image"
+                  error={uploadError.image || error.image}
+                  preview={form.image}
+                  clearPreview={ResetImage}
+                  loadingPercent={percent.image}
+                  accept="image/*"
+                />
 
-            <Form.File 
-              onChange={value => handleFileChange(value, "video")} 
-              icon={<BsFillCameraVideoFill />}  
-              label={"Video"}
-              type="video"
-              error={uploadError.video || error.video}
-              preview={form.video}
-              clearPreview={ResetVideo}
-              loadingPercent={percent.video}
-              accept="video/*"
-            />
-            <div className="spacing-lg"></div>
+                <Form.File 
+                  onChange={value => handleFileChange(value, "video")} 
+                  icon={<BsFillCameraVideoFill />}  
+                  label={"Video"}
+                  type="video"
+                  error={uploadError.video || error.video}
+                  preview={form.video}
+                  clearPreview={ResetVideo}
+                  loadingPercent={percent.video}
+                  accept="video/*"
+                />
+                <div className="spacing-lg"></div>
 
-            <Button variant="primary" block={true} className="spacing-sm" type="submit">Update</Button>
-          
-          </form>
-        }
-
+                <Button variant="primary" block={true} className="spacing-sm" type="submit">Update</Button>
+              
+              </form>
+            }
+          </>
+        ) : (
+          <MessageBox>Only the author of this post can edit this post. Go to <Link to="/">Home</Link> </MessageBox>
+        )
+      }
     </div>
   )
 }

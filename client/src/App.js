@@ -17,6 +17,9 @@ import Events from "./screens/Events"
 import ShowStory from "./screens/ShowStory"
 import EditStory from "./screens/EditStory"
 import NotFound from "./screens/NotFound"
+import Membership from "./screens/Membership"
+import Team from "./screens/Team"
+import Support from "./screens/Support"
 
 // importing components
 import { Layout, Feedback, PrivateRoute, AppContainer, AdminOrSuperAdmin } from "./components"
@@ -31,6 +34,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} exact></Route> 
           <Route path ="/signin" element={<SignIn />} exact></Route>
+          <Route path="/profile/" element={<PrivateRoute> <Layout><ProfileScreen /></Layout> </PrivateRoute>} exact></Route>
           <Route path="/profile/:id" element={<PrivateRoute> <Layout><ProfileScreen /></Layout> </PrivateRoute>} exact></Route>
           <Route path="/profile/:id/edit" element={<PrivateRoute> <><EditProfile /></> </PrivateRoute>} exact></Route>
           
@@ -45,7 +49,10 @@ function App() {
           <Route path="/event/:id/edit" element={<PrivateRoute> <Layout>  <AdminOrSuperAdmin>  <EditEvent /> </AdminOrSuperAdmin> </Layout> </PrivateRoute>} exact></Route>
           {/* <Route path="/event/:id/edit" element={<PrivateRoute> <Layout><EditStory /></Layout> </PrivateRoute>} exact></Route> */}
           
-        
+          <Route path="/membership" element={<> <Layout><Membership /></Layout> </>} exact></Route>
+          <Route path="/support" element={<> <Layout><Support /></Layout> </>} exact></Route>
+          <Route path="/team" element={<> <Layout><Team /></Layout> </>} exact></Route>
+          
           <Route path="/" element={<Layout><HomeScreen /> <Feedback />  </Layout> } exact></Route>
           <Route path="*" element={<NotFound /> }></Route>
         </Routes>

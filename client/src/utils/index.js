@@ -16,6 +16,11 @@ import {
   truncate,
   objectToArray,
 } from "./javascriptFunctions"
+import {
+  isAdmin,
+  isSuperAdmin,
+  isAuthor,
+} from "./auth"
 
 
 
@@ -37,4 +42,7 @@ export {
     setTagArray,
     aims,
     objectToArray,
+    isAdmin,
+    isSuperAdmin,
+    isAuthor,
 }

@@ -17,7 +17,7 @@ import styles from "./showstory.module.css"
 // functions
 import { getStory, deleteStory } from "../../actions"
 import { userPic, amenPicture } from "../../assets"
-import { setTagArray } from "../../utils"
+import { setTagArray, isAuthor, isAdmin, isSuperAdmin } from "../../utils"
 
 // type
 import { GET_STORY_RESET, DELETE_STORY_RESET } from "../../constants/storyConstants"
@@ -185,8 +185,8 @@ const ShowStory = () => {
               <> 
                 <div className={`${styles.story_buttons} spacing-md`}>
                   <ButtonGroup className="rainbow-m-around_medium">
-                      <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>
-                      <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>
+                      {(currentUser && story.author && isAuthor(currentUser, story.author)) && <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>}
+                      {(currentUser && story.author && (isAuthor(currentUser, story.author) || isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>}
                   </ButtonGroup>
                 </div>
                 <div className={`${styles.back_link} spacing-md `} to={backLink}>

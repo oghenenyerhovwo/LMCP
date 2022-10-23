@@ -3,8 +3,6 @@ import { FileSelector } from 'react-rainbow-components';
 import { FaTimes } from "react-icons/fa"
 
 import VideoPlayer from "../VideoPlayer"
-import Button from "../Button"
-
 
 import "./file.css"
 

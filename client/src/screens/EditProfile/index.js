@@ -14,6 +14,8 @@ import { updateUser, getUserById } from "../../actions"
 // type
 import { UPDATE_USER_RESET, GET_USER_BY_ID_RESET } from '../../constants/userConstants'
 
+import { isAuthor } from "../../utils"
+
 
 const EditProfile = () => {
   const dispatch = useDispatch()
@@ -31,6 +33,7 @@ const EditProfile = () => {
     loadingUpdateUser,
     idUpdateUser,
     userByID,
+    currentUser,
   } =  useSelector(state => state.userStore)
 
   const initialFormState = {
@@ -111,116 +114,126 @@ const EditProfile = () => {
         { loadingGetUserById && <Spinner />}
        { errorGetUserById && <MessageBox variant="danger">{errorGetUserById} </MessageBox>}
       {
-        userByID.fullName &&
-        <div className={`grid ${styles.editprofile}`}>
+        userByID.fullName && (
+          <>
+              {
+                (currentUser && userByID && isAuthor(currentUser, userByID)) ? (
+                  <div className={`grid ${styles.editprofile}`}>
 
-          <div className={`${styles.form}`}>
-            <div className={`${styles.form_container}`}>
-              <h1 className="spacing-md">User Profile </h1>
+                    <div className={`${styles.form}`}>
+                      <div className={`${styles.form_container}`}>
+                        <h1 className="spacing-md">User Profile </h1>
 
-              <form className="spacing-md" onSubmit={handleSubmit}>
-                
-                {loadingUpdateUser && <Spinner />}
-                {errorUpdateUser && <MessageBox variant="danger">{errorUpdateUser} </MessageBox>}
-                
-                <Form.Input 
-                  label="Full Name"
-                  onChange={handleChange}
-                  value={form.fullName}
-                  type="text"
-                  name="fullName"
-                />
+                        <form className="spacing-md" onSubmit={handleSubmit}>
+                          
+                          {loadingUpdateUser && <Spinner />}
+                          {errorUpdateUser && <MessageBox variant="danger">{errorUpdateUser} </MessageBox>}
+                          
+                          <Form.Input 
+                            label="Full Name"
+                            onChange={handleChange}
+                            value={form.fullName}
+                            type="text"
+                            name="fullName"
+                          />
 
-              <Form.Input 
-                  label="Email"
-                  onChange={handleChange}
-                  value={form.email}
-                  type="text"
-                  name="email"
-                />
+                        <Form.Input 
+                            label="Email"
+                            onChange={handleChange}
+                            value={form.email}
+                            type="text"
+                            name="email"
+                          />
 
-              <Form.PhoneNumber 
-                  label="Phone Number"
-                  onChange={handlePhone}
-                  value={form.phoneNumber}
-                  name="phoneNumber"
-                />
+                        <Form.PhoneNumber 
+                            label="Phone Number"
+                            onChange={handlePhone}
+                            value={form.phoneNumber}
+                            name="phoneNumber"
+                          />
 
-              <Form.Dropdown 
-                  label="Gender"
-                  onChange={handleChange}
-                  value={form.gender}
-                  name="gender"
-                  options={[{_id: 1, label: "Male", name:"male"}, {_id: 2, label: "Female", name:"female"}]}
-                />
-                <Form.Input 
-                  label="Home Parish / Church"
-                  onChange={handleChange}
-                  value={form.parish}
-                  type="text"
-                  name="parish"
-                />
+                        <Form.Dropdown 
+                            label="Gender"
+                            onChange={handleChange}
+                            value={form.gender}
+                            name="gender"
+                            options={[{_id: 1, label: "Male", name:"male"}, {_id: 2, label: "Female", name:"female"}]}
+                          />
+                          <Form.Input 
+                            label="Home Parish / Church"
+                            onChange={handleChange}
+                            value={form.parish}
+                            type="text"
+                            name="parish"
+                          />
 
-                <Form.Date
-                  label="Birthday"
-                  onChange={handleDate}
-                  value={form.birthday}
-                  name="birthday"
-                />
+                          <Form.Date
+                            label="Birthday"
+                            onChange={handleDate}
+                            value={form.birthday}
+                            name="birthday"
+                          />
 
-                <Form.Dropdown 
-                  label="Membership"
-                  onChange={handleChange}
-                  value={form.membership}
-                  name="membership"
-                  options={[{_id: 1, label: "Active", name:"Active"}, {_id: 2, label: "Auxiliary", name:"Auxiliary"},]}
-                />
+                          <Form.Dropdown 
+                            label="Membership"
+                            onChange={handleChange}
+                            value={form.membership}
+                            name="membership"
+                            options={[{_id: 1, label: "Active", name:"Active"}, {_id: 2, label: "Auxiliary", name:"Auxiliary"},]}
+                          />
 
-                <Form.CheckBox 
-                  label="Are you a Catholic?"
-                  onChange={handleCheck}
-                  checked={form.isCatholic}
-                  name="isCatholic"
-                />
+                          <Form.CheckBox 
+                            label="Are you a Catholic?"
+                            onChange={handleCheck}
+                            checked={form.isCatholic}
+                            name="isCatholic"
+                          />
 
-                <Form.CheckBox 
-                  label="Are you Baptised?"
-                  onChange={handleCheck}
-                  checked={form.isBaptised}
-                  name="isBaptised"
-                />
+                          <Form.CheckBox 
+                            label="Are you Baptised?"
+                            onChange={handleCheck}
+                            checked={form.isBaptised}
+                            name="isBaptised"
+                          />
 
-                <Form.CheckBox 
-                  label="Are you a Communicant?"
-                  onChange={handleCheck}
-                  checked={form.isCommunicant}
-                  name="isCommunicant"
-                />
+                          <Form.CheckBox 
+                            label="Are you a Communicant?"
+                            onChange={handleCheck}
+                            checked={form.isCommunicant}
+                            name="isCommunicant"
+                          />
 
-                <Form.CheckBox 
-                  label="Are you Confirmed?"
-                  onChange={handleCheck}
-                  checked={form.isConfirmed}
-                  name="isConfirmed"
-                />
-                
+                          <Form.CheckBox 
+                            label="Are you Confirmed?"
+                            onChange={handleCheck}
+                            checked={form.isConfirmed}
+                            name="isConfirmed"
+                          />
+                          
 
-                <Button variant="primary" type="submit">Update Profile</Button>
-              </form>
-              <p>
-                Go <Link to={`/profile/${params.id}`}>Back</Link>
-              </p>
+                          <Button variant="primary" type="submit">Update Profile</Button>
+                        </form>
+                        <p>
+                          Go <Link to={`/profile/${params.id}`}>Back</Link>
+                        </p>
 
-              </div>
-            </div>
+                        </div>
+                      </div>
 
-          <div className={styles.image_col}>
-            <div className={styles.image_col_container}>
-                <h1 className="spacing-sm">Tell us more <span>you </span></h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex, dignissimos doloremque ducimus a eaque impedit aut rem facere earum magnam nobis delectus? Saepe iusto ad, dolorum architecto minus dolorem nemo!</p>
-            </div>
-          </div>
-        </div>
+                    <div className={styles.image_col}>
+                      <div className={styles.image_col_container}>
+                          <h1 className="spacing-sm">Tell us more <span>you </span></h1>
+                          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex, dignissimos doloremque ducimus a eaque impedit aut rem facere earum magnam nobis delectus? Saepe iusto ad, dolorum architecto minus dolorem nemo!</p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <MessageBox>Only the owner of this profile can edit this profile. Go to <Link to="/">Home</Link> </MessageBox>
+                )
+              }
+          </>
+        )
+        
       }
     </>
   )

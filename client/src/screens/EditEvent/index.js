@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 
@@ -14,7 +14,7 @@ import styles from "./editevent.module.css"
 
 // functions and objects
 import { updateEvent, getEvent } from "../../actions"
-import { firebaseStorage, onSubmitError, onChangeError, objectToArray } from '../../utils/'
+import { firebaseStorage, onSubmitError, onChangeError, objectToArray, isSuperAdmin, isAdmin } from '../../utils/'
 
 // type
 import { UPDATE_EVENT_RESET, GET_EVENT_RESET } from "../../constants/eventConstants"
@@ -38,6 +38,8 @@ const EditEvent = () => {
     loadingGetEvent,
     event,
   } =  useSelector(state => state.eventStore)
+
+  const { currentUser } = useSelector(state => state.userStore)
 
   const initialFormState = {
     text: "",
@@ -194,99 +196,108 @@ const EditEvent = () => {
       {loadingGetEvent && <Spinner />}
       {errorGetEvent && <MessageBox variant="danger">{errorGetEvent} </MessageBox>}
 
-      {
-        event._id ? (
-          <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
-            <h1 className="spacing-md">Edit Event Details</h1>
-            
-            {loadingUpdateEvent && <Spinner />}
-            {errorUpdateEvent && <MessageBox variant="danger">{errorUpdateEvent} </MessageBox>}
-            
-            <Form.Input 
-              label="Title"
-              onChange={handleChange}
-              value={form.title}
-              error={error.title}
-              type="text"
-              name="title"
-              required={true}
-            />
+      <>
+        {
+          (currentUser && (isAdmin(currentUser) || isSuperAdmin(currentUser))) ? (
+            <>
+              {
+                event._id ? (
+                  <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
+                    <h1 className="spacing-md">Edit Event Details</h1>
+                    
+                    {loadingUpdateEvent && <Spinner />}
+                    {errorUpdateEvent && <MessageBox variant="danger">{errorUpdateEvent} </MessageBox>}
+                    
+                    <Form.Input 
+                      label="Title"
+                      onChange={handleChange}
+                      value={form.title}
+                      error={error.title}
+                      type="text"
+                      name="title"
+                      required={true}
+                    />
 
-            <Form.Input 
-              label="Tags"
-              onChange={handleChange}
-              value={form.tags}
-              type="text"
-              name="tags"
-            />
+                    <Form.Input 
+                      label="Tags"
+                      onChange={handleChange}
+                      value={form.tags}
+                      type="text"
+                      name="tags"
+                    />
 
-            <Form.DateTime
-              label="Date"
-              error={error.date}
-              required={true}
-              onChange={handleDate}
-              value={form.date}
-              name="date"
-            />
+                    <Form.DateTime
+                      label="Date"
+                      error={error.date}
+                      required={true}
+                      onChange={handleDate}
+                      value={form.date}
+                      name="date"
+                    />
 
-            <TextEditor
-              onChange={handleEditor}
-              onReady={presetEditor}
-              error={error.text}
-              required={true}
-              placeholder="Write about this event"
-            />
+                    <TextEditor
+                      onChange={handleEditor}
+                      onReady={presetEditor}
+                      error={error.text}
+                      required={true}
+                      placeholder="Write about this event"
+                    />
 
-            
+                    
 
-            <div className="spacing-lg"></div>
+                    <div className="spacing-lg"></div>
 
-            <Form.File 
-              onChange={value => handleFileChange(value, "bannerImgs")} 
-              icon={<AiFillPicture />}  
-              label={"Banner Images"}
-              type="bannerImgs"
-              error={uploadError.bannerImgs || error.bannerImgs.text}
-              preview={form.bannerImgs}
-              clearPreview={ResetImage}
-              loadingPercent={percent.bannerImgs}
-              accept="image/*"
-              multiple={true}
-            />
+                    <Form.File 
+                      onChange={value => handleFileChange(value, "bannerImgs")} 
+                      icon={<AiFillPicture />}  
+                      label={"Banner Images"}
+                      type="bannerImgs"
+                      error={uploadError.bannerImgs || error.bannerImgs.text}
+                      preview={form.bannerImgs}
+                      clearPreview={ResetImage}
+                      loadingPercent={percent.bannerImgs}
+                      accept="image/*"
+                      multiple={true}
+                    />
 
-            <Form.File 
-              onChange={value => handleFileChange(value, "images")} 
-              icon={<AiFillPicture />}  
-              label={"Images"}
-              type="images"
-              error={uploadError.images || error.images.text}
-              preview={form.images}
-              clearPreview={ResetImage}
-              loadingPercent={percent.images}
-              accept="image/*"
-              multiple={true}
-            />
+                    <Form.File 
+                      onChange={value => handleFileChange(value, "images")} 
+                      icon={<AiFillPicture />}  
+                      label={"Images"}
+                      type="images"
+                      error={uploadError.images || error.images.text}
+                      preview={form.images}
+                      clearPreview={ResetImage}
+                      loadingPercent={percent.images}
+                      accept="image/*"
+                      multiple={true}
+                    />
 
-            <Form.File 
-              onChange={value => handleFileChange(value, "videos")} 
-              icon={<BsFillCameraVideoFill />}  
-              label={"Video"}
-              type="videos"
-              error={uploadError.videos || error.videos}
-              preview={form.videos}
-              clearPreview={ResetVideo}
-              loadingPercent={percent.videos}
-              accept="video/*"
-              multiple={true}
-            />
-            <div className="spacing-lg"></div>
+                    <Form.File 
+                      onChange={value => handleFileChange(value, "videos")} 
+                      icon={<BsFillCameraVideoFill />}  
+                      label={"Video"}
+                      type="videos"
+                      error={uploadError.videos || error.videos}
+                      preview={form.videos}
+                      clearPreview={ResetVideo}
+                      loadingPercent={percent.videos}
+                      accept="video/*"
+                      multiple={true}
+                    />
+                    <div className="spacing-lg"></div>
 
 
-            <Button variant="primary" error={submitError} block={true} className="spacing-sm" type="submit">Update Event</Button>
-          </form>
-        ) : <></>
-      }
-
+                    <Button variant="primary" error={submitError} block={true} className="spacing-sm" type="submit">Update Event</Button>
+                  </form>
+                ) : <></>
+              }
+            </>
+          ): (
+            <MessageBox>Only the author of this post can edit this post. Go to <Link to="/">Home</Link> </MessageBox>
+          )
+        }
+      </>
     </div>
   )
 }
