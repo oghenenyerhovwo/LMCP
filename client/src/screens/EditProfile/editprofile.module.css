@@ -38,12 +38,9 @@
     display: none;
  }
 
-.editprofile p{
-    text-align: center;
-}
-
-.editprofile p a{
-    color: var(--color-softblue);
+ .editprofile .backlink{
+   display: flex;
+   justify-content: flex-end;
 }
 
 @media (min-width: 450px){

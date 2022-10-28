@@ -12,7 +12,6 @@ const LargeScreenFile = props => {
   return (
     <FileSelector
       className="rainbow-m-vertical_x-large rainbow-p-horizontal_medium rainbow-m_auto"
-    
       uploadIcon={icon}
       placeholder="Drag & Drop or Click to Browse"
       bottomHelpText={multiple ? "Can select multiple files" :  "Select only one file"}
@@ -59,17 +58,17 @@ const FileComponent = props => {
         <div className="spacing-sm"></div>
         {
           (!preview || preview.length < 1  ) ? (
-            <> 
+            <>
               <div className="file_largescreen">
-                  <LargeScreenFile fileProps={props} />
+                  <LargeScreenFile {...props} />
               </div>
               <div className="file_smallscreen">
-                  <SmallScreenFile image={props} />
+                  <SmallScreenFile {...props} />
               </div>
             </>
           )
           :
-          <> 
+          <>
             {
               type === "image" && (
                 <div className="preview_file">

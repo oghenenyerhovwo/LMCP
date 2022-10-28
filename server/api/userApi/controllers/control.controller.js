@@ -33,8 +33,10 @@ export const getUser = async(req, res) => {
 
 export const getAllUsers = async(req, res) => {
     try {
-        const allUsers= await User.find();
-        res.json(allUsers);       
+        const superAdminUsers= await User.find({role: "superAdmin"});
+        const adminUsers= await User.find({role: "admin"});
+        const regularUsers= await User.find({role: "regular"});
+        res.json({users: [...superAdminUsers, ...adminUsers, ...regularUsers]});       
     } catch (error) {
         console.log(error)
         res.status(404).send({message: "Server error: Could not find all users"})
@@ -99,7 +101,7 @@ export const updateUser = async(req, res) => {
               
     } catch (error) {
         console.log(error)
-        res.status(404).send({message: "Server error: Could not delete account"})
+        res.status(404).send({message: "Server error: Could not update account"})
 
     }
 }     

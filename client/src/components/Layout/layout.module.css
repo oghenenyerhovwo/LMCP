@@ -15,9 +15,14 @@
     grid-row: 2;
 }
 
-.footer{
+.back{
     grid-column: span 12;
     grid-row: 3;
+}
+
+.footer{
+    grid-column: span 12;
+    grid-row: 4;
     align-self: end;
 }
 

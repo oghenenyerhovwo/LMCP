@@ -1,6 +1,7 @@
 import React from 'react' 
 import htmlToText from "html-to-formatted-text"
-import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 // import { useLocation } from 'react-router-dom'
 
 import styles from "./event.module.css"
@@ -17,16 +18,20 @@ import { BsFacebook } from "react-icons/bs"
 import { BsTwitter } from "react-icons/bs"
 import { BsInstagram } from "react-icons/bs"
 
+import { navigateHistory } from "../../actions"
+
 
 const EventCard = props => {
 
     const navigate = useNavigate()
+    const location = useLocation()
+    const dispatch = useDispatch()
 
     const { event } = props
 
 
     const directToShowEventDetail = () => {
-        navigate(`/event/${event._id}`)
+        dispatch(navigateHistory(location.pathname, navigate(`/event/${event._id}`)))
     }
 
 

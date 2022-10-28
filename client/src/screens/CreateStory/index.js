@@ -50,6 +50,7 @@ const CreateStory = () => {
   }
   const [form, setForm] = useState(initialFormState)
   const [error, setError] = useState(initialErrorState)
+  const [submitError, setSubmitError] = useState(false)
   const [uploadError, setUploadError] = useState({
     video: "",
     image: "",
@@ -75,8 +76,11 @@ const CreateStory = () => {
   }
   const handleSubmit = e => {
     e.preventDefault()
+    setSubmitError(false)
     if(!onSubmitError(form, error, setError)){
-        dispatch(createStory(form))
+      dispatch(createStory(form))
+    } else{
+      setSubmitError(true)
     }
   }
 
@@ -106,7 +110,7 @@ const CreateStory = () => {
           },
           (err) => {
             console.log(err)
-            setUploadError("Error while uploading file")
+            setUploadError({[name]: `Error while uploading ${name}`})
           },
           () => {
             // download url
@@ -120,8 +124,8 @@ const CreateStory = () => {
           }
         )
       } catch (error) {
-        console.log(error)
-        setUploadError("Error while uploading file")
+            console.log(error)
+        setUploadError({[name]: "Error while uploading file"})
       }
     }
   }
@@ -135,7 +139,7 @@ const CreateStory = () => {
   return (
     <div className={`${styles.createstory} container`}>
         
-      <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
+      <form className={`${styles.form_container}`} onSubmit={handleSubmit}>
         <h1 className="spacing-md">Create Post Section</h1>
         
         {loadingCreateStory && <Spinner />}
@@ -193,7 +197,6 @@ const CreateStory = () => {
           icon={<BsFillCameraVideoFill />}  
           label={"Video"}
           type="video"
-          error={uploadError.video || error.video}
           preview={form.video}
           clearPreview={ResetVideo}
           loadingPercent={percent.video}
@@ -202,7 +205,7 @@ const CreateStory = () => {
         <div className="spacing-lg"></div>
 
 
-        <Button variant="primary" block={true} className="spacing-sm" type="submit">Post</Button>
+        <Button variant="primary" error={submitError}  block={true} className="spacing-sm" type="submit">Post</Button>
       </form>
 
     </div>

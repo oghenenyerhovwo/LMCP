@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 
 // components
-import { Spinner, MessageBox, Button, Form } from "../../components"
+import { Spinner, MessageBox, Button, Form, BackLink } from "../../components"
 
 // css
 import styles from "./editprofile.module.css"
@@ -84,11 +84,14 @@ const EditProfile = () => {
     }
   }, [dispatch, successUpdateUser, idUpdateUser, location.search, navigate])
 
-  
 
   const handleSubmit = e => {
     e.preventDefault()
-    dispatch(updateUser(form, params.id))
+    const editedForm = {
+      ...form,
+      phoneNumber: form.phoneNumber.phone ? form.phoneNumber : "",
+    }
+    dispatch(updateUser(editedForm, params.id))
   }
 
   const handleChange = e => {
@@ -114,10 +117,10 @@ const EditProfile = () => {
         { loadingGetUserById && <Spinner />}
        { errorGetUserById && <MessageBox variant="danger">{errorGetUserById} </MessageBox>}
       {
-        userByID.fullName && (
+        (userByID._id && currentUser._id) && (
           <>
               {
-                (currentUser && userByID && isAuthor(currentUser, userByID)) ? (
+                (userByID && isAuthor(currentUser, userByID)) ? (
                   <div className={`grid ${styles.editprofile}`}>
 
                     <div className={`${styles.form}`}>
@@ -213,9 +216,7 @@ const EditProfile = () => {
 
                           <Button variant="primary" type="submit">Update Profile</Button>
                         </form>
-                        <p>
-                          Go <Link to={`/profile/${params.id}`}>Back</Link>
-                        </p>
+                        <div className={styles.backlink}><BackLink /> </div> 
 
                         </div>
                       </div>

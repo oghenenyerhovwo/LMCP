@@ -47,6 +47,22 @@ export const updateStory = (form, id) => (dispatch, getState) =>  {
       .catch(err => dispatch({type: UPDATE_STORY_FAIL, payload: setError(err)}));
   }
 
+export const addViewToStory = (id) => (dispatch, getState) =>  { 
+  dispatch({type: UPDATE_STORY_REQUEST, payload:  id})
+  const token= getState().userStore.token  
+
+    axios
+      .put(
+        `${backend_url}/stories/route/view/${id}`,
+        {},
+        setHeader(token)
+      )
+      .then(res => {
+        dispatch({type: UPDATE_STORY_SUCCESS, payload: res.data})
+      })
+      .catch(err => dispatch({type: UPDATE_STORY_FAIL, payload: setError(err)}));
+  }
+
 export const deleteStory = (id) => (dispatch, getState) =>  { 
     dispatch({type: DELETE_STORY_REQUEST, payload:  id})
     const token= getState().userStore.token  

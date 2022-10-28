@@ -13,6 +13,14 @@ router.get(
     }
 );
 
+// get all users
+router.get(
+    "/all", 
+    async(req, res) => {
+        getAllUsers(req,res)
+    }
+);
+
 router.get(
     "/:id",
     async(req, res) => {
@@ -33,14 +41,6 @@ router.delete(
     isAuth,
     async(req, res) => {
         deleteUser(req, res)
-    }
-);
-
-// remove all users
-router.get(
-    "/all", 
-    async(req, res) => {
-        getAllUsers(req,res)
     }
 );
 

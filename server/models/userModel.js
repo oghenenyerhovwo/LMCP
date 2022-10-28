@@ -15,7 +15,7 @@ const userSchema = new Schema({
         type: String,
         enum: ["Active", "Auxiliary"]
     },
-    phoneNumber: {type: Object, unique: true},
+    phoneNumber: {type: Object, unique: false},
     profilePic: {type: String,},
     gender: {
         type: String,

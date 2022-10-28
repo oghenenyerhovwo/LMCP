@@ -56,6 +56,7 @@ const EditStory = () => {
   }
   const [form, setForm] = useState(initialFormState)
   const [error, setError] = useState(initialErrorState)
+  const [submitError, setSubmitError] = useState(false)
   const [uploadError, setUploadError] = useState("")
   const [percent, setPercent] = useState({
     video: 0,
@@ -99,8 +100,11 @@ const EditStory = () => {
   }
   const handleSubmit = e => {
     e.preventDefault()
+    setSubmitError(false)
     if(!onSubmitError(form, error, setError)){
         dispatch(updateStory(form, params.id))
+    } else{
+      setSubmitError(true)
     }
   }
 
@@ -130,7 +134,7 @@ const EditStory = () => {
           },
           (err) => {
             console.log(err)
-            setUploadError("Error while uploading file")
+            setUploadError({[name]: "Error while uploading file"})
           },
           () => {
             // download url
@@ -145,7 +149,7 @@ const EditStory = () => {
         )
       } catch (error) {
         console.log(error)
-        setUploadError("Error while uploading file")
+        setUploadError({[name]: "Error while uploading file"})
       }
     }
   }
@@ -161,13 +165,12 @@ const EditStory = () => {
 
   return (
     <div className={`${styles.editstory} container`}>
+      {loadingGetStory && <Spinner />}
+      {errorGetStory && <MessageBox variant="danger">{errorGetStory} </MessageBox>}
       {
-        (currentUser && story.author && isAuthor(currentUser, story.author)) ? (
+        (currentUser._id && story._id) && (
           <>
-            {loadingGetStory && <Spinner />}
-            {errorGetStory && <MessageBox variant="danger">{errorGetStory} </MessageBox>}
-            
-            {story._id &&
+            { isAuthor(currentUser, story.author) ?
               <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
                 <h1 className="spacing-md">Edit Post Section</h1>
                 
@@ -235,14 +238,14 @@ const EditStory = () => {
                 />
                 <div className="spacing-lg"></div>
 
-                <Button variant="primary" block={true} className="spacing-sm" type="submit">Update</Button>
+                <Button error={submitError} variant="primary" block={true} className="spacing-sm" type="submit">Update</Button>
               
-              </form>
+              </form>: (
+                <MessageBox>Only the author of this post can edit this post. Go to <Link to="/">Home</Link> </MessageBox>
+              )
             }
           </>
-        ) : (
-          <MessageBox>Only the author of this post can edit this post. Go to <Link to="/">Home</Link> </MessageBox>
-        )
+        ) 
       }
     </div>
   )

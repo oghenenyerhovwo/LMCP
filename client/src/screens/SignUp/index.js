@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 // component
-import { Spinner, MessageBox, Google, Form, Button } from "../../components"
+import { Spinner, MessageBox, Google, Form, Button, BackLink } from "../../components"
 
 // css
 import styles from "./signup.module.css"
@@ -23,6 +23,7 @@ const SignUp = () => {
 
   // state
   const {currentUser, errorSignUser, successSignUser, loadingSignUser} =  useSelector(state => state.userStore)
+
   const initialFormState = {
     email: "",
     password: "",
@@ -30,6 +31,7 @@ const SignUp = () => {
   }
   const [form, setForm] = useState(initialFormState)
   const [error, setError] = useState(initialFormState)
+  const [submitError, setSubmitError] = useState(false)
 
   useEffect(() => {
     // redirect user to signUser if user sign User is successful
@@ -42,7 +44,8 @@ const SignUp = () => {
         fullName: "",
       })
       dispatch({type: SIGN_USER_RESET})
-      const redirect = location.search && location.search.split("=")[1]
+      const redirect = (location.search && location.search.split("=")[1])
+      // const location = useLocation()
       navigate(`/profile/${currentUser._id}/edit/?redirect=${redirect}` )
     }
   }, [currentUser,successSignUser,dispatch,navigate, location])
@@ -60,8 +63,11 @@ const SignUp = () => {
       email: form.email.trim(),
       fullName: form.fullName.trim(),
     }
+    setSubmitError(false)
     if(!onSubmitError(form, error, setError)){
       dispatch(signUpUser(trimmedForm))
+    } else{
+      setSubmitError(true)
     }
   }
 
@@ -130,7 +136,7 @@ const SignUp = () => {
             /> */}
 
 
-            <Button variant="primary" disabled={error.password && true} className="btn btn-primary btn-signin spacing-md" type="submit">
+            <Button variant="primary" error={submitError}  disabled={error.password && true} className="btn btn-primary btn-signin spacing-md" type="submit">
               Sign Up
             </Button>
 
@@ -143,11 +149,7 @@ const SignUp = () => {
               to={`/signin${location.search && `?redirect=${location.search.split("=")[1]}`}`}
             >Log In</Link></p>
 
-            <p>
-            Return to  {" "}
-            <Link 
-              to={`/`}
-            >Home</Link> page</p> 
+              <div className={styles.backlink}><BackLink /> </div> 
 
           </div>        
 

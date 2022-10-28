@@ -16,9 +16,17 @@
    grid-row: 2;
 }
 
+.backlink{
+   grid-column: 1/ 3;
+   grid-row: 3;
+}
+
 .footer{
    grid-column: 1/ 3;
+   grid-row: 4;
 }
+
+
 
 .banner_img{
    border-radius: 0.5rem;

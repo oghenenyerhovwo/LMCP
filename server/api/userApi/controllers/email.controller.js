@@ -18,12 +18,6 @@ export const signUp = async(req, res) => {
             return res.status(401).send({message: "This email has been used previously"})
         }
 
-        // // check if phone number already exists
-        const foundUserByPhoneNumber = await findUser({phoneNumber: phoneNumber}) 
-        if(foundUserByPhoneNumber){
-            return res.status(401).send({message: "This phone number has been used previously"})
-        }
-
         const newUser= {
             ...req.body,
             password: bcrypt.hashSync(req.body.password, 8)

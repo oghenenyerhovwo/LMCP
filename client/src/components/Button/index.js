@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from '../../../node_modules/react-router-dom/index'
+import CustomLink from "../CustomLink"
 import "./button.css"
 
 const Button = props => {
@@ -18,19 +18,20 @@ const Button = props => {
     <>
       {
         type === "link" ?
-        <Link 
+        <CustomLink 
           className={`btn btn-${variant } btn-${size || "lg" } spacing-sm  ${block && `flex flex__center btn-block` }`} 
-          to={href || "#"}
+          href={href}
           disabled={disabled}
           onClick={onClick}
         >
             {children} 
-        </Link>:
+        </CustomLink>:
         <button 
           className={`btn btn-${variant } btn-${size || "lg" } spacing-sm   ${block && `flex flex__center btn-block` }`} 
           to={href || "#"}
           disabled={disabled}
           onClick={onClick}
+          type={type}
         >
           {children}
         </button>

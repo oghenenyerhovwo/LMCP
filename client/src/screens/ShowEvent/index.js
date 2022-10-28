@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 // import htmlToText from "html-to-formatted-text"
 
 // components
 import { ButtonGroup } from 'react-rainbow-components';
-import { Spinner, MessageBox, Button, CommentSection, Header, Footer, Countdown } from "../../components"
+import { Spinner, MessageBox, Button, CommentSection, Header, Footer, BackLink, Countdown } from "../../components"
 import { BsFacebook } from "react-icons/bs"
 import { BsTwitter } from "react-icons/bs"
 import { BsInstagram } from "react-icons/bs"
@@ -14,7 +14,7 @@ import { BsInstagram } from "react-icons/bs"
 import styles from "./showevent.module.css"
 
 // functions
-import { getEvent, deleteEvent } from "../../actions"
+import { getEvent, deleteEvent, navigateHistory } from "../../actions"
 import { poorChildrenPic } from "../../assets"
 import { setTagArray, isSuperAdmin, isAdmin } from "../../utils"
 
@@ -52,8 +52,6 @@ const ShowEvent = () => {
 
   const [toggleDeleteOverlay, setToggleDeleteOverlay] = useState(false)
 
-  const backLink = location.search ? location.search.split("=")[1] : "/event"
-
   useEffect(() => {
     if(successDeleteEvent){
       dispatch({type: DELETE_EVENT_RESET})
@@ -76,7 +74,7 @@ const ShowEvent = () => {
   }
 
   const navigateToEditScreen= () => {
-    navigate(`/event/${event._id}/edit`)
+    dispatch(navigateHistory(location.pathname,navigate(`/event/${event._id}/edit`))   )
   }
 
   const handleDeleteAccount = () => {
@@ -146,12 +144,9 @@ const ShowEvent = () => {
               <> 
                 <div className={`${styles.event_buttons} container spacing-md`}>
                   <ButtonGroup className="rainbow-m-around_medium">
-                    {(currentUser && (isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>}
-                    {(currentUser && (isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>}
+                    {(currentUser._id && (isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>}
+                    {(currentUser._id && (isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>}
                   </ButtonGroup>
-                </div>
-                <div className={`${styles.back_link} container spacing-md `} to={backLink}>
-                  <Link to={backLink}>Back</Link>
                 </div>
                 {
                   toggleDeleteOverlay && <div className={`flex flex__center ${styles.delete_overlay}`}>
@@ -171,6 +166,11 @@ const ShowEvent = () => {
             }
           </section> : <></>
         }
+
+        <section className={`${styles.backlink} container spacing-lg`}>
+          <BackLink />
+        </section>
+        
         <section className={`${styles.footer}`}>
             <Footer />
         </section>

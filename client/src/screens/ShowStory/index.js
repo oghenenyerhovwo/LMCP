@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import htmlToText from "html-to-formatted-text"
 
 // components
@@ -15,12 +15,12 @@ import { FaClipboard, FaAngleRight, FaAngleLeft } from "react-icons/fa"
 import styles from "./showstory.module.css"
 
 // functions
-import { getStory, deleteStory } from "../../actions"
+import { getStory, addViewToStory, deleteStory, navigateHistory } from "../../actions"
 import { userPic, amenPicture } from "../../assets"
 import { setTagArray, isAuthor, isAdmin, isSuperAdmin } from "../../utils"
 
 // type
-import { GET_STORY_RESET, DELETE_STORY_RESET } from "../../constants/storyConstants"
+import { GET_STORY_RESET, UPDATE_STORY_RESET, DELETE_STORY_RESET } from "../../constants/storyConstants"
 
 
 
@@ -30,7 +30,6 @@ const ShowStory = () => {
   const params = useParams()
   const location = useLocation()
   
-
   // state
   const {
     story,
@@ -40,6 +39,7 @@ const ShowStory = () => {
     errorDeleteStory,
     loadingDeleteStory,
     successDeleteStory,
+    successUpdateStory,
   } =  useSelector(state => state.storyStore)
 
   const { 
@@ -54,8 +54,6 @@ const ShowStory = () => {
   const [toggleDeleteOverlay, setToggleDeleteOverlay] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
 
-  const backLink = location.search ? location.search.split("=")[1] : "/story"
-
   useEffect(() => {
     if(successDeleteStory){
       dispatch({type: DELETE_STORY_RESET})
@@ -66,8 +64,18 @@ const ShowStory = () => {
   useEffect(() => {
     if(successGetStory){
       dispatch({type: GET_STORY_RESET})
+      // add user to view if the user is  not the author and if user is not there before
+      if(currentUser._id && (currentUser._id !== story.author._id) && !story.views.includes(currentUser._id)  ){
+        dispatch(addViewToStory(params.id ))
+      }   
     }
-  }, [dispatch, story, successGetStory])
+  }, [dispatch, story, currentUser._id, params.id, successGetStory])
+
+  useEffect(() => {
+    if(successUpdateStory){
+      dispatch({type: UPDATE_STORY_RESET})
+    }
+  }, [dispatch, story, successUpdateStory])
 
   useEffect(() => {
     dispatch(getStory(params.id))
@@ -78,7 +86,7 @@ const ShowStory = () => {
   }
 
   const navigateToEditScreen= () => {
-    navigate(`/story/${story._id}/edit`)
+    dispatch(navigateHistory(location.pathname, navigate(`/story/${story._id}/edit`)))
   }
 
   const handleShowVideoToggle = () => {
@@ -188,9 +196,6 @@ const ShowStory = () => {
                       {(currentUser && story.author && isAuthor(currentUser, story.author)) && <Button onClick={navigateToEditScreen} label="Edit" variant="primary">Update</Button>}
                       {(currentUser && story.author && (isAuthor(currentUser, story.author) || isAdmin(currentUser) || isSuperAdmin(currentUser))) && <Button onClick={handleToggleDeleteOverlay} label="Delete" variant="secondary">Delete</Button>}
                   </ButtonGroup>
-                </div>
-                <div className={`${styles.back_link} spacing-md `} to={backLink}>
-                  <Link to={backLink}>Back</Link>
                 </div>
                 {
                   toggleDeleteOverlay && <div className={`flex flex__center ${styles.delete_overlay}`}>

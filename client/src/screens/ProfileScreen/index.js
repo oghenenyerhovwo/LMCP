@@ -13,7 +13,7 @@ import { FaUser, FaPlus, FaPen } from "react-icons/fa"
 import { Tab, Button, MessageBox, Spinner, StoryCard } from "../../components"
 
 // objects and functions
-import { getUserById, signOut, deleteUser, updateUser, getStoriesMine } from "../../actions"
+import { getUserById, signOut, deleteUser, updateUser, getStoriesMine, navigateHistory } from "../../actions"
 import { GET_USER_BY_ID_RESET, DELETE_USER_RESET, UPDATE_USER_RESET } from "../../constants/userConstants"
 import { GET_STORIES_MINE_RESET } from "../../constants/storyConstants"
 import { firebaseStorage, isAdmin, isSuperAdmin, isAuthor } from '../../utils/'
@@ -47,8 +47,6 @@ const Profile = () => {
     successDeleteUser,
     userByID,
   } =  useSelector(state => state.userStore)
-
-  console.log(userByID)
 
   const {
     errorGetStoriesMine,
@@ -90,7 +88,7 @@ const Profile = () => {
   }, [dispatch, successGetStoriesMine])
 
   const navigateToCreateArticle = () => {
-    navigate("/story/create") 
+    dispatch(navigateHistory(location.pathname, navigate("/story/create") ))
   }
 
   const handleToggleDeleteOverlay = () => {
@@ -136,8 +134,8 @@ const Profile = () => {
   
   return (
     <>
-       { loadingGetUserById && <Spinner />}
-       { errorGetUserById && <MessageBox variant="danger">{errorGetUserById} </MessageBox>}
+      { loadingGetUserById && <Spinner />}
+      { errorGetUserById && <MessageBox variant="danger">{errorGetUserById} </MessageBox>}
       { 
       userByID.fullName &&
        <section className="grid container">
@@ -164,22 +162,22 @@ const Profile = () => {
                         </div>
                         <div className={`grid ${styles.about_section} spacing-sm`}>
                           <h3 className={styles.about_section_label}>Birthday:</h3>
-                          <h3 className={`soft_blue ${styles.about_section_label_text}`}>{(userByID.birthday && moment(userByID.birthday).format("LL")).slice(0,-6) || "Not set"}</h3>
+                          <h3 className={`soft_blue ${styles.about_section_label_text}`}>{(userByID.birthday && moment(userByID.birthday).format("MMMM Do")) || "Not set"}</h3>
                         </div>
                       </div>
                       <div className={`${styles.about_section} spacing-md`}>
                         <h4 className="spacing-xs">Spirituality</h4>
                         <div className={`grid ${styles.about_section} spacing-sm`}>
                           <h3 className={styles.about_section_label}>Catholic:</h3>
-                          <h3 className={styles.about_section_label_text}>{userByID.isCatholic ? "Yes": "Not set"}</h3>
+                          <h3 className={styles.about_section_label_text}>{userByID.isCatholic ? "Yes": "No"}</h3>
                         </div>
                         <div className={`grid ${styles.about_section} spacing-sm`}>
                           <h3 className={styles.about_section_label}>Communicant:</h3>
-                          <h3 className={styles.about_section_label_text}>{userByID.isCommunicant ? "Yes": "Not set"}</h3>
+                          <h3 className={styles.about_section_label_text}>{userByID.isCommunicant ? "Yes": "No"}</h3>
                         </div>
                         <div className={`grid ${styles.about_section} spacing-sm`}>
                           <h3 className={styles.about_section_label}>Confirmed:</h3>
-                          <h3 className={styles.about_section_label_text}>{userByID.isConfirmed ? "Yes": "Not set"}</h3>
+                          <h3 className={styles.about_section_label_text}>{userByID.isConfirmed ? "Yes": "No"}</h3>
                         </div>
                         <div className={`grid ${styles.about_section} spacing-sm`}>
                           <h3 className={styles.about_section_label}>Parish:</h3>

@@ -1,7 +1,7 @@
-import { createStory, updateStory, deleteStory } from "./storyActions/postActions"
+import { createStory, updateStory, deleteStory, addViewToStory  } from "./storyActions/postActions"
 import { getStory, getStories, getStoriesMine, getStoriesWithLimit } from "./storyActions/getActions"
 
-import { createEvent, updateEvent, deleteEvent } from "./eventActions/postActions"
+import { createEvent, updateEvent, deleteEvent} from "./eventActions/postActions"
 import { getEvent, getEvents, getEventsWithLimit } from "./eventActions/getActions"
 
 // import { createRent, updateRent } from "./rentActions/postActions"
@@ -9,10 +9,11 @@ import { getEvent, getEvents, getEventsWithLimit } from "./eventActions/getActio
 
 import { signUpUser, signInUser, confirmEmail, signOut, } from "./userActions/email.action"
 import { resetPassword, getResetPasswordEmail } from "./userActions/password.action"
-import { getUser, getUserById, deleteUser, updateUser } from "./userActions/control.action"
+import { getUser, getUserById, deleteUser, updateUser, getUsers } from "./userActions/control.action"
 import { googleSignIn } from "./userActions/thirdparty.action"
 
 import { createComment,  deleteComment } from "./commentActions/postActions"
+import { setHistory, navigateHistory, removeHistory } from "./appHistoryActions"
 
 // import { uploadImage } from "./uploadActions/imageAction"
 
@@ -27,6 +28,7 @@ export {
     getStoriesMine,
     deleteStory,
     getStoriesWithLimit,
+    addViewToStory,
 
     createEvent,
     getEvent,
@@ -51,10 +53,15 @@ export {
     getUserById,
     deleteUser,
     updateUser,
+    getUsers,
 
     // uploadImage,
     // postImage,
    
     createComment,  
     deleteComment,
+
+    setHistory,
+    removeHistory,
+    navigateHistory,
 }

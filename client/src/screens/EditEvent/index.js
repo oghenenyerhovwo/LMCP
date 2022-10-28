@@ -148,7 +148,7 @@ const EditEvent = () => {
             },
             (err) => {
               console.log(err)
-              setUploadError("Error while uploading file")
+              setUploadError({[name]: "Error while uploading file"})
             },
             async () => {
               // download url
@@ -171,7 +171,7 @@ const EditEvent = () => {
         })
       } catch (error) {
         console.log(error)
-        setUploadError("Error while uploading file")
+        setUploadError({[name]: "Error while uploading file"})
       }
     }
   }
@@ -198,10 +198,10 @@ const EditEvent = () => {
 
       <>
         {
-          (currentUser && (isAdmin(currentUser) || isSuperAdmin(currentUser))) ? (
+          (currentUser._id && event._id) && (
             <>
               {
-                event._id ? (
+                 (isAdmin(currentUser) || isSuperAdmin(currentUser)) ? (
                   <form className={`${styles.form_container}`}onSubmit={handleSubmit}>
                     <h1 className="spacing-md">Edit Event Details</h1>
                     
@@ -290,11 +290,11 @@ const EditEvent = () => {
 
                     <Button variant="primary" error={submitError} block={true} className="spacing-sm" type="submit">Update Event</Button>
                   </form>
-                ) : <></>
+                ) : (
+                  <MessageBox>Only the author of this post can edit this post. Go to <Link to="/">Home</Link> </MessageBox>
+                )
               }
             </>
-          ): (
-            <MessageBox>Only the author of this post can edit this post. Go to <Link to="/">Home</Link> </MessageBox>
           )
         }
       </>

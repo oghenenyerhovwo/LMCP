@@ -5,11 +5,12 @@ import eventReducers from "./eventReducers";
 import commentReducers from "./commentReducers";
 // import rentReducers from "./rentReducers";
 // import uploadReducers from "./uploadReducers";
-// import imageReducers from "./imageReducers";
+import appHistoryReducers from "./appHistoryReducers";
 
 export default combineReducers({
     userStore: userReducers,
     storyStore: storyReducers,
     eventStore: eventReducers,
     commentStore: commentReducers,
+    appHistoryStore: appHistoryReducers,
 });

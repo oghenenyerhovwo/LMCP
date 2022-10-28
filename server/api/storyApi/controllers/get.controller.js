@@ -3,7 +3,7 @@ import Story from "../../../models/storyModel.js";
 // get Story
 export const getStories = async(req, res) => {
     try {
-        const stories= await Story.find().sort({date: -1}).populate("author")
+        const stories= await Story.find().sort({date: -1}).populate("author").populate("views")
         res.send({stories}) 
     } catch (error) {
         console.log(error)
@@ -14,7 +14,7 @@ export const getStories = async(req, res) => {
 // get Story
 export const getStoriesWithLimit = async(req, res) => {
     try {
-        const stories= await Story.find().sort({date: -1}).limit(Number(req.params.limitNumber)).populate("author")
+        const stories= await Story.find().sort({date: -1}).limit(Number(req.params.limitNumber)).populate("author").populate("views")
         res.send({stories}) 
     } catch (error) {
         console.log(error)
@@ -25,7 +25,7 @@ export const getStoriesWithLimit = async(req, res) => {
 // get Story for user
 export const getStoriesMine = async(req, res) => {
     try {
-        const stories= await Story.find({author: req.params.id}).populate("author")
+        const stories= await Story.find({author: req.params.id}).populate("author").populate("views")
         res.send({stories}) 
     } catch (error) {
         console.log(error)
@@ -49,3 +49,4 @@ export const getStory = async(req, res) => {
         res.status(404).send({message: "Server error: Could not get this Story"})
     }
 }
+

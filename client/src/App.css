@@ -89,3 +89,13 @@
   padding: 0.15rem 0.75rem !important;
   color: rgba(42,48,57,1) !important;
 }
+
+.jeckxp {
+  font-size: 0.8rem !important;
+}
+
+/* radio buttons */
+.kMUtMg ~ label > .rainbow-input_faux {
+  width: 0.8rem !important;
+  height: 0.8rem !important;
+}

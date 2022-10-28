@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 // components
-import { Spinner, MessageBox, Button, Google, Form } from "../../components"
+import { Spinner, MessageBox, Button, Google, Form, BackLink } from "../../components"
 
 
 // css
@@ -30,6 +30,7 @@ const SignIn = () => {
   }
   const [form, setForm] = useState(initialFormState)
   const [error, setError] = useState(initialFormState)
+  const [submitError, setSubmitError] = useState(false)
 
   useEffect(() => {
     if(successSignUser || currentUser.email){
@@ -54,8 +55,11 @@ const SignIn = () => {
       password: form.password,
       email: form.email.trim(),
     }
+    setSubmitError(false)
     if(!onSubmitError(form, error, setError)){
       dispatch(signInUser(trimmedForm))
+    } else{
+      setSubmitError(true)
     }
   }
 
@@ -81,7 +85,7 @@ const SignIn = () => {
             {errorSignUser && <MessageBox variant="danger">{errorSignUser} </MessageBox>}
             
             <Form.Input 
-              label="Email or Phone Number"
+              label="Email"
               onChange={handleChange}
               value={form.email}
               type="text"
@@ -103,7 +107,7 @@ const SignIn = () => {
               <Link to="/forgotpassword">Forgot Password?</Link>
             </p>
 
-            <Button variant="primary" className="spacing-sm" type="submit">Sign In</Button>
+            <Button variant="primary" error={submitError} className="spacing-sm" type="submit">Sign In</Button>
           </form>
 
           <p className="spacing-sm">
@@ -113,11 +117,7 @@ const SignIn = () => {
             >Sign Up</Link>
           </p>
 
-          <p>
-            Return to  {" "}
-            <Link 
-              to={`/`}
-            >Home</Link> page</p> 
+          <div className={styles.backlink}><BackLink /> </div> 
           </div>
         </div>
 

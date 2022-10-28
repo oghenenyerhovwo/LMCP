@@ -1,7 +1,7 @@
 import express from "express";
 import { isAuth } from "../../utils/index.js"
 
-import { createStory, updateStory, deleteStory, getStory, getStories, getStoriesMine, getStoriesWithLimit } from "./controllers/index.js";
+import { createStory, updateStory, deleteStory, addView, getStory, getStories, getStoriesMine, getStoriesWithLimit } from "./controllers/index.js";
 
 
 const router = express.Router();
@@ -25,6 +25,14 @@ router.get(
     "/mine/:id", 
     (req, res) => {
         getStoriesMine(req, res)
+});
+
+// add view to story
+router.put(
+    "/view/:id", 
+    isAuth,
+    (req, res) => {
+        addView(req, res)
 });
 
 // create Story

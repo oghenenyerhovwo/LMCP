@@ -117,7 +117,8 @@ const CreateEvent = () => {
             },
             (err) => {
               console.log(err)
-              setUploadError("Error while uploading file")
+              console.log(uploadError)
+              setUploadError({[name]: "Error while uploading file"})
             },
             async () => {
               // download url
@@ -140,7 +141,7 @@ const CreateEvent = () => {
         })
       } catch (error) {
         console.log(error)
-        setUploadError("Error while uploading file")
+        setUploadError({[name]: "Error while uploading file"})
       }
     }
   }

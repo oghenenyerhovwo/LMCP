@@ -36,6 +36,11 @@ import {
     GET_USER_BY_ID_FAIL,
     GET_USER_BY_ID_RESET,
 
+    GET_USERS_REQUEST,
+    GET_USERS_SUCCESS,
+    GET_USERS_FAIL,
+    GET_USERS_RESET,
+
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAIL,
@@ -92,6 +97,12 @@ const initialState = {
     successGetUserById: false,
     loadingGetUserById: false,
     userByID: {},
+
+    // Get users
+    errorGetUsers: "",
+    successGetUsers: false,
+    loadingGetUsers: false,
+    users: [],
 
     // UPDATE user
     errorUpdateUser: "",
@@ -305,6 +316,34 @@ const userReducers =  (state = initialState, action) => {
             errorGetUserById: "",
             successGetUserById: false,
             loadingGetUserById: false,
+        }
+
+    case GET_USERS_REQUEST:
+        return {
+            ...state,
+            loadingGetUsers:  true,
+            errorGetUsers: "",
+        }
+    case GET_USERS_SUCCESS:
+        return {
+            ...state,
+            loadingGetUsers:  false,
+            successGetUsers: true,
+            users: action.payload.users,
+        }
+    case GET_USERS_FAIL:
+        return {
+            ...state,
+            loadingGetUsers:  false,
+            errorGetUsers: action.payload,
+        }
+
+     case GET_USERS_RESET:
+        return {
+            ...state,
+            errorGetUsers: "",
+            successGetUsers: false,
+            loadingGetUsers: false,
         }
 
     case UPDATE_USER_REQUEST:

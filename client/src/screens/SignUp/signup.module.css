@@ -43,12 +43,9 @@
    justify-content: center;
 }
 
-.signup p{
-   text-align: center;
-}
-
-.signup p a{
-   color: var(--color-softblue);
+.signup .backlink{
+   display: flex;
+   justify-content: flex-end;
 }
 
 @media (min-width: 450px){
